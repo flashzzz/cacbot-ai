@@ -6,7 +6,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from typing import Union, List
 import logging
 
-from logging_utils import custom_logging
+from src.utils.logging_utils import custom_logging
+from src.constants.doc_types import DocType
 custom_logging()
 
 def load_txt(file_path: str, encoding: str = None)-> List:
@@ -68,7 +69,9 @@ def load_url(urls: List[str])-> List:
     logging.info(f'Loaded {len(documents)} documents from [URL]')
     return documents
     
-def load_and_split_doc(paths: List)-> List:
+def load_and_split_doc(paths: List)-> List: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
+
+    
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=100,
@@ -77,6 +80,18 @@ def load_and_split_doc(paths: List)-> List:
     docs = []
     
     #TODO - Fill docs dynamically
+    for path, doc_type in paths:
+        if doc_type == DocType.TXT.value:
+            docs.extend(load_txt(path))
+        elif doc_type == DocType.PDF.value:
+            docs.extend(load_pdf(path))
+        elif doc_type == DocType.ONLINE_PDF.value:
+            docs.extend(load_online_pdf(path))
+        elif doc_type == DocType.WEB_URL.value:
+            docs.extend(load_url(path))
+        else:
+            logging.ERROR(f'Unknown document type: {doc_type}')
+            raise Exception(f'Unknown document type: {doc_type}')
     
-    splitter.split_documents(docs)
-    pass
+    splits = splitter.split_documents(docs)
+    return splits
