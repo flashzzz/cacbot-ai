@@ -2,3 +2,5 @@ unstructured==0.11.6
 python-magic-bin==0.4.14
 "unstructured[pdf]"
 langchain==0.0.353
+charset-normalizer==3.3.2
+cohere==4.39
