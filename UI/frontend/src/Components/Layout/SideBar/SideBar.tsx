@@ -36,6 +36,8 @@ export const SideBar = () => {
         sx={{
           justifyContent: "unset",
           height: "100%",
+          background: "linear-gradient(-90deg, #e2e2e2, #9a9ee0)",
+          padding: "10px"
         }}
       >
         <Paper
@@ -50,7 +52,7 @@ export const SideBar = () => {
             justifyContent: "center",
             gap: "1vh",
             mt: 2,
-            background: "linear-gradient(183deg, #d6bdf0, #eba8a8)",
+            background: "linear-gradient(183deg, #d6bdf0, #666bbd)",
             width: "100%",
             margin: "0vh auto 2vh",
             border: "none",

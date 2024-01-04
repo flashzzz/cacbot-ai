@@ -4,9 +4,9 @@ export const CustomTextField = styled((props: TextFieldProps) => (
   <TextField {...props} />
 ))(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
-    padding: "9px 13px",
+    padding: "8px 13px",
     fontSize: "0.8rem",
-    color: "rgb(38, 38, 38)",
+    color: "rgb(38, 38, 38)"
   },
   color: theme.palette.grey[800],
   backgroundColor: theme.palette.common.white,
@@ -16,4 +16,5 @@ export const CustomTextField = styled((props: TextFieldProps) => (
     "-webkit-appearance": "none",
     margin: 0,
   },
+
 }));

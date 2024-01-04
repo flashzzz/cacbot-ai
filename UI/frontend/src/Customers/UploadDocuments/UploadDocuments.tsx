@@ -36,7 +36,9 @@ export const UploadDocuments: React.FC = () => {
 
   return (
     <PageContainer title="Upload Content" description="upload content page">
-      <StandardCard>
+      <StandardCard sx={{
+        background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
+      }}>
         <Box
           sx={{
             display: "flex",
@@ -52,6 +54,7 @@ export const UploadDocuments: React.FC = () => {
               alignItems: "flex-start",
               justifyContent: "center",
               width: "100%",
+              
             }}
           >
             <Typography
@@ -97,6 +100,7 @@ export const UploadDocuments: React.FC = () => {
                       border: "1px solid grey",
                       padding: "2pc 1pc",
                       borderRadius: 2,
+                      background: "rgb(250, 250, 250, 0.5)",                
                     }}
                   >
                     <Box
@@ -171,6 +175,7 @@ export const UploadDocuments: React.FC = () => {
                       border: "1px solid grey",
                       padding: "2pc 1pc",
                       borderRadius: 2,
+                      background: "rgb(250, 250, 250, 0.5)",
                     }}
                   >
                     <Box

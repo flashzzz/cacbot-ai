@@ -23,7 +23,7 @@
 }
 .active {
   /* background-color: black; */
-  background-color: rgb(248, 202, 248);
+  background-color: rgba(177, 212, 254, 0.9);
   color: black;
   border-radius: 5px;
 }

@@ -68,6 +68,7 @@ export const FileUpload: React.FC = () => {
             sx={{
               position: "relative",
               width: "100%",
+              background: "rgb(250, 250, 250, 0.5)",
             }}
           >
             <input
