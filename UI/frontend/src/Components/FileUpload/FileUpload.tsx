@@ -80,11 +80,11 @@ export const FileUpload: React.FC = () => {
             <label htmlFor="file_input" className="input_file_text">
               <BackupIcon
                 sx={{
-                  color: "white",
+                  color: "black",
                   fontSize: "3rem",
                 }}
               />
-              Select a file
+              Select files
             </label>
           </Box>
 

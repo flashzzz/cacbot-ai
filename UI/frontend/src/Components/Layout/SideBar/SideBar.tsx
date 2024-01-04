@@ -1,7 +1,5 @@
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -11,60 +9,63 @@ import { Button, ListItemIcon, Paper, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import { StandardCard } from "../../StandardCard/StandardCard";
 
 const drawerWidth = "250px";
 
 export const SideBar = () => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ display: "flex", backgroundColor: "black" }}>
-      <Drawer
-        sx={{
+    <Drawer
+      sx={{
+        width: drawerWidth,
+        height: "100vh",
+        flexShrink: 0,
+        "& .css-12i7wg6-MuiPaper-root-MuiDrawer-paper": {
+          backgroundColor: "unset",
+          border: "none",
+        },
+        "& .MuiDrawer-paper": {
           width: drawerWidth,
-          bgColor: "black",
-          flexShrink: 0,
-          "& .css-12i7wg6-MuiPaper-root-MuiDrawer-paper ": {
-            backgroundColor: "unset",
-          },
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-            backgroundColor: "black",
-            borderRight: "1px solid #403b3b",
-            // borderRight: "1px solid red"
-          },
+        },
+      }}
+      variant="permanent"
+      anchor="left"
+    >
+      <StandardCard
+        sx={{
+          justifyContent: "unset",
+          height: "100%",
         }}
-        variant="permanent"
-        anchor="left"
       >
-        {/* <Toolbar /> */}
         <Paper
           sx={{
             borderRadius: 4,
-            py: 4,
+            p: "25px 0",
             backgroundColor: "dimgray",
-            color: "white",
+            color: "black",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
             justifyContent: "center",
             gap: "1vh",
             mt: 2,
-            background: "linear-gradient(183deg, #6d28b4, #988f8f)",
-            width: "90%",
-            margin: "4vh auto",
+            background: "linear-gradient(183deg, #d6bdf0, #eba8a8)",
+            width: "100%",
+            margin: "0vh auto 2vh",
+            border: "none",
           }}
         >
           <Typography
             sx={{
-              ml: 2,
+              ml: "10px",
             }}
           >
             Next up
           </Typography>
           <Typography
             sx={{
-              ml: 2,
+              ml: "10px",
             }}
           >
             Add Bot to your website
@@ -77,7 +78,7 @@ export const SideBar = () => {
               px: 4,
               borderRadius: 50,
               fontSize: 15,
-              color: "white",
+              color: "black",
               borderColor: "white",
               fontWeight: "bold",
               mt: "3vh",
@@ -91,7 +92,6 @@ export const SideBar = () => {
             Start
           </Button>
         </Paper>
-        <Divider />
         <List>
           <ListItem
             disablePadding
@@ -106,7 +106,9 @@ export const SideBar = () => {
                   borderRadius: "5px",
                   transition: "all 0.5s ease-in-out",
                   display: "flex",
-                  gap: "2vh",
+                  gap: "1vh",
+                  px: "unset",
+                  pl: 2,
                 }}
               >
                 <ListItemIcon
@@ -117,8 +119,9 @@ export const SideBar = () => {
                   }}
                 >
                   <CloudUploadIcon
+                    fontSize="small"
                     sx={{
-                      color: "white",
+                      color: "black",
                     }}
                   />
                 </ListItemIcon>
@@ -126,7 +129,7 @@ export const SideBar = () => {
                   primary="Upload Document"
                   className="list_item_text"
                   sx={{
-                    color: "white",
+                    color: "black",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -152,7 +155,9 @@ export const SideBar = () => {
                   borderRadius: "5px",
                   transition: "all 0.5s ease-in-out",
                   display: "flex",
-                  gap: "2vh",
+                  gap: "1vh",
+                  px: "unset",
+                  pl: 2,
                 }}
               >
                 <ListItemIcon
@@ -163,15 +168,16 @@ export const SideBar = () => {
                   }}
                 >
                   <LocalFireDepartmentIcon
+                    fontSize="small"
                     sx={{
-                      color: "white",
+                      color: "black",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Playground"
                   sx={{
-                    color: "white",
+                    color: "black",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -201,7 +207,9 @@ export const SideBar = () => {
                   borderRadius: "5px",
                   transition: "all 0.5s ease-in-out",
                   display: "flex",
-                  gap: "2vh",
+                  gap: "1vh",
+                  px: "unset",
+                  pl: 2,
                 }}
               >
                 <ListItemIcon
@@ -212,15 +220,16 @@ export const SideBar = () => {
                   }}
                 >
                   <FastForwardIcon
+                    fontSize="small"
                     sx={{
-                      color: "white",
+                      color: "black",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Tutorial"
                   sx={{
-                    color: "white",
+                    color: "black",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -246,7 +255,9 @@ export const SideBar = () => {
                   borderRadius: "5px",
                   transition: "all 0.5s ease-in-out",
                   display: "flex",
-                  gap: "2vh",
+                  gap: "1vh",
+                  px: "unset",
+                  pl: 2,
                 }}
               >
                 <ListItemIcon
@@ -257,15 +268,16 @@ export const SideBar = () => {
                   }}
                 >
                   <AccountCircleIcon
+                    fontSize="small"
                     sx={{
-                      color: "white",
+                      color: "black",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="My Account"
                   sx={{
-                    color: "white",
+                    color: "black",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -278,7 +290,7 @@ export const SideBar = () => {
             </NavLink>
           </ListItem>
         </List>
-      </Drawer>
-    </Box>
+      </StandardCard>
+    </Drawer>
   );
 };

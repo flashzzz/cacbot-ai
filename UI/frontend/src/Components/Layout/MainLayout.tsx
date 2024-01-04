@@ -8,9 +8,9 @@ export const MainLayout = () => {
       sx={{
         display: "flex",
         minHeight: "100vh",
-        // overflow: "hidden",
         width: "100%",
-        gap: "5vw",
+        gap: "1vw",
+        margin: "auto",
       }}
     >
       <SideBar />
@@ -18,7 +18,6 @@ export const MainLayout = () => {
         sx={{
           minHeight: "calc(100vh - 170px)",
           width: "100%",
-          backgroundColor: "black",
         }}
       >
         <Outlet />

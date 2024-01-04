@@ -25,6 +25,12 @@ const LazyUploadDocuments = Loadable(
     })))
 )
 
+const LazyLoginLayout = Loadable(
+  lazy(() => import("./Customers/authentication/Login").then(({ Login }) => ({
+      default: Login,
+  })))
+)
+
 export const Router = [
   {
     path: "/",
@@ -42,5 +48,10 @@ export const Router = [
             element: <LazyUploadDocuments />,
         }
     ]
+  },
+  {
+    path: "/auth",
+    exact: true,
+    element: <LazyLoginLayout />,
   }
 ];
