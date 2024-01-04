@@ -4,6 +4,9 @@
   padding: 0;
   font-family: "Poppins", sans-serif !important;
 }
+#root{
+  background-color: black;
+}
 .hero_image {
   position: absolute;
   top: -73vh;
@@ -20,8 +23,9 @@
 .active {
   color: black;
   background-color: rgb(49 6 49);
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
 }
+
 .attachFileSpan {
   color: #2b6dad;
   cursor: pointer;

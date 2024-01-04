@@ -10,12 +10,17 @@ export const MainLayout = () => {
         minHeight: "100vh",
         // overflow: "hidden",
         width: "100%",
-        // gap: "0.5vw",
-        
+        gap: "5vw",
       }}
     >
       <SideBar />
-      <Box sx={{ minHeight: "calc(100vh - 170px)", width: "100%", backgroundColor: "black" }}>
+      <Box
+        sx={{
+          minHeight: "calc(100vh - 170px)",
+          width: "100%",
+          backgroundColor: "black",
+        }}
+      >
         <Outlet />
       </Box>
     </Box>

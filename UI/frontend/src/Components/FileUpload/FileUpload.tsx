@@ -43,15 +43,14 @@ export const FileUpload: React.FC = () => {
     >
       <Box
         sx={{
-          padding: "1pc",
           // border: "1px solid grey",
           height: "auto",
         }}
       >
         <Typography
           variant="h5"
+          letterSpacing={1}
           sx={{
-            letterSpacing: 1,
             fontWeight: "bold",
           }}
         >

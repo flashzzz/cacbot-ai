@@ -30,6 +30,7 @@ export const SideBar = () => {
             width: drawerWidth,
             boxSizing: "border-box",
             backgroundColor: "black",
+            borderRight: "1px solid #403b3b",
             // borderRight: "1px solid red"
           },
         }}
