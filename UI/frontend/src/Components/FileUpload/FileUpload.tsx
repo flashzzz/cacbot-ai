@@ -52,6 +52,7 @@ export const FileUpload: React.FC = () => {
           letterSpacing={1}
           sx={{
             fontWeight: "bold",
+            color: "white"
           }}
         >
           Upload PDFs
@@ -68,7 +69,7 @@ export const FileUpload: React.FC = () => {
             sx={{
               position: "relative",
               width: "100%",
-              background: "rgb(250, 250, 250, 0.5)",
+              background: "inherit",
             }}
           >
             <input
@@ -81,7 +82,7 @@ export const FileUpload: React.FC = () => {
             <label htmlFor="file_input" className="input_file_text">
               <BackupIcon
                 sx={{
-                  color: "black",
+                  color: "white",
                   fontSize: "3rem",
                 }}
               />

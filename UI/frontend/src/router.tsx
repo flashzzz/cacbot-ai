@@ -46,7 +46,12 @@ export const Router = [
             path: "/main/upload",
             exact: true,
             element: <LazyUploadDocuments />,
-        }
+        },
+        {
+          path: "/main/playground",
+          exact: true,
+          element: <LazyUploadDocuments />,
+      }
     ]
   },
   {

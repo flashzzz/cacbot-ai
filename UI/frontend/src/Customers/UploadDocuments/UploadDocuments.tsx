@@ -37,7 +37,9 @@ export const UploadDocuments: React.FC = () => {
   return (
     <PageContainer title="Upload Content" description="upload content page">
       <StandardCard sx={{
-        background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
+        // background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
+        backgroundColor: "rgb(41 41 41 / 85%)",
+        color: "#9722E8"
       }}>
         <Box
           sx={{
@@ -62,6 +64,7 @@ export const UploadDocuments: React.FC = () => {
               fontWeight={400}
               sx={{
                 letterSpacing: 1,
+                color: "#9722E8"
               }}
             >
               Content Management
@@ -71,6 +74,7 @@ export const UploadDocuments: React.FC = () => {
               sx={{
                 letterSpacing: 1,
                 mt: 1,
+                color: "white"
               }}
             >
               Manage your documnets, sources and knowledge which our bot will
@@ -87,6 +91,7 @@ export const UploadDocuments: React.FC = () => {
                     variant="h5"
                     letterSpacing={1}
                     fontWeight={"bold"}
+                    color={"white"}
                   >
                     Upload PDF's Link
                   </Typography>
@@ -100,7 +105,7 @@ export const UploadDocuments: React.FC = () => {
                       border: "1px solid grey",
                       padding: "2pc 1pc",
                       borderRadius: 2,
-                      background: "rgb(250, 250, 250, 0.5)",                
+                      background: "inherit",                
                     }}
                   >
                     <Box
@@ -162,6 +167,7 @@ export const UploadDocuments: React.FC = () => {
                     variant={"h5"}
                     letterSpacing={1}
                     fontWeight={"bold"}
+                    color={"white"}
                   >
                     Upload Document links
                   </Typography>
@@ -175,7 +181,7 @@ export const UploadDocuments: React.FC = () => {
                       border: "1px solid grey",
                       padding: "2pc 1pc",
                       borderRadius: 2,
-                      background: "rgb(250, 250, 250, 0.5)",
+                      background: "inherit",
                     }}
                   >
                     <Box

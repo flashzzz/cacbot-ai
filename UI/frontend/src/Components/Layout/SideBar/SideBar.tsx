@@ -27,6 +27,7 @@ export const SideBar = () => {
         },
         "& .MuiDrawer-paper": {
           width: drawerWidth,
+          maxWidth: drawerWidth,
         },
       }}
       variant="permanent"
@@ -36,7 +37,7 @@ export const SideBar = () => {
         sx={{
           justifyContent: "unset",
           height: "100%",
-          background: "linear-gradient(-90deg, #e2e2e2, #9a9ee0)",
+          background: "rgb(41 41 41 / 65%)",
           padding: "10px"
         }}
       >
@@ -52,7 +53,7 @@ export const SideBar = () => {
             justifyContent: "center",
             gap: "1vh",
             mt: 2,
-            background: "linear-gradient(183deg, #d6bdf0, #666bbd)",
+            background: "linear-gradient(183deg, #ffffff, #7446f0)",
             width: "100%",
             margin: "0vh auto 2vh",
             border: "none",
@@ -123,7 +124,7 @@ export const SideBar = () => {
                   <CloudUploadIcon
                     fontSize="small"
                     sx={{
-                      color: "black",
+                      color: "#9722E8",
                     }}
                   />
                 </ListItemIcon>
@@ -131,12 +132,12 @@ export const SideBar = () => {
                   primary="Upload Document"
                   className="list_item_text"
                   sx={{
-                    color: "black",
+                    color: "#9722E8",
                     my: 0.5,
                     ".MuiListItemText-primary": {
-                      fontSize: 16,
-                      letterSpacing: "0.5px",
-                      fontWeight: "semi",
+                      fontSize: 18,
+                      letterSpacing: "0.8px",
+                      // fontWeight: "bold",
                     },
                   }}
                 />
@@ -150,7 +151,7 @@ export const SideBar = () => {
               mb: 2,
             }}
           >
-            <NavLink to="/playground" className="link_text">
+            <NavLink to="/main/playground" className="link_text">
               <ListItemButton
                 sx={{
                   width: "100%",
@@ -172,14 +173,14 @@ export const SideBar = () => {
                   <LocalFireDepartmentIcon
                     fontSize="small"
                     sx={{
-                      color: "black",
+                      color: "white",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Playground"
                   sx={{
-                    color: "black",
+                    color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -201,7 +202,7 @@ export const SideBar = () => {
             <NavLink
               to="/tutorial"
               className="link_text"
-              onClick={() => navigate("/playground")}
+              onClick={() => navigate("/main/playground")}
             >
               <ListItemButton
                 sx={{
@@ -224,14 +225,14 @@ export const SideBar = () => {
                   <FastForwardIcon
                     fontSize="small"
                     sx={{
-                      color: "black",
+                      color: "white",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Tutorial"
                   sx={{
-                    color: "black",
+                    color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
@@ -272,14 +273,14 @@ export const SideBar = () => {
                   <AccountCircleIcon
                     fontSize="small"
                     sx={{
-                      color: "black",
+                      color: "white",
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="My Account"
                   sx={{
-                    color: "black",
+                    color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 16,
