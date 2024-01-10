@@ -5,16 +5,17 @@
   font-family: "Poppins", sans-serif !important;
 }
 #root{
-  background-color: rgb(240, 240, 240, 1);
+  background-color: black;
 }
 .hero_image {
   position: absolute;
-  top: -73vh;
+  top: 0vh;
   left: 0vh;
-  transform: translate(50%, 50%);
+  transform: translate(50%, 0%);
   height: auto;
   margin: auto;
   z-index: -9999;
+  height: 100vh;
 }
 .link_text {
   width: 100%;
@@ -23,7 +24,7 @@
 }
 .active {
   /* background-color: black; */
-  background-color: rgba(177, 212, 254, 0.9);
+  background-color: rgba(33, 33, 34, 0.9);
   color: black;
   border-radius: 5px;
 }
@@ -51,6 +52,7 @@
   justify-content: center;
   gap: 10px;
   font-size: 20px;
+  color: white;
 }
 .pdf_link{
   text-decoration: none;
