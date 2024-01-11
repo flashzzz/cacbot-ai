@@ -1,12 +1,13 @@
 import { TextField, TextFieldProps, styled } from "@mui/material";
 
 export const CustomTextField = styled((props: TextFieldProps) => (
-  <TextField {...props} />
+  <TextField fullWidth {...props} />
 ))(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
     padding: "8px 13px",
     fontSize: "0.8rem",
-    color: "rgb(38, 38, 38)"
+    color: "black",
+    fontWeight: "550",
   },
   color: theme.palette.grey[800],
   backgroundColor: theme.palette.common.white,

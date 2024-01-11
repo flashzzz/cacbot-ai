@@ -15,7 +15,7 @@ export const Hero = () => {
   //   }
   const navigate = useNavigate();
   return (
-    <PageContainer title="DBS.AI" description="this is home page">
+    <PageContainer title="CACBOT.AI" description="this is home page">
       <Box
         sx={{
           position: "relative",
