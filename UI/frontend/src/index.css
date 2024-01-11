@@ -28,6 +28,16 @@
   color: black;
   border-radius: 5px;
 }
+.list_item_text{
+  color: white;
+}
+.list_item_icon{
+  color: white;
+}
+
+.active .list_item_icon, .active .list_item_text{
+  color: #9722E8;
+}
 
 .attachFileSpan {
   color: #2b6dad;

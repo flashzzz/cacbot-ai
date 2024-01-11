@@ -122,17 +122,18 @@ export const SideBar = () => {
                   }}
                 >
                   <CloudUploadIcon
+                    className="list_item_icon"
                     fontSize="small"
-                    sx={{
-                      color: "#9722E8",
-                    }}
+                    // sx={{
+                    //   color: "#9722E8",
+                    // }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Upload Document"
                   className="list_item_text"
                   sx={{
-                    color: "#9722E8",
+                    // color: "#9722E8",
                     my: 0.5,
                     ".MuiListItemText-primary": {
                       fontSize: 18,
@@ -172,18 +173,20 @@ export const SideBar = () => {
                 >
                   <LocalFireDepartmentIcon
                     fontSize="small"
-                    sx={{
-                      color: "white",
-                    }}
+                    className="list_item_icon"
+                    // sx={{
+                    //   color: "white",
+                    // }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Playground"
+                  className="list_item_text"
                   sx={{
-                    color: "white",
+                    // color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
-                      fontSize: 16,
+                      fontSize: 18,
                       letterSpacing: "0.5px",
                       fontWeight: "semi",
                     },
@@ -224,18 +227,20 @@ export const SideBar = () => {
                 >
                   <FastForwardIcon
                     fontSize="small"
-                    sx={{
-                      color: "white",
-                    }}
+                    className="list_item_icon"
+                    // sx={{
+                    //   color: "white",
+                    // }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="Tutorial"
+                  className="list_item_text"
                   sx={{
-                    color: "white",
+                    // color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
-                      fontSize: 16,
+                      fontSize: 18,
                       letterSpacing: "0.5px",
                       fontWeight: "semi",
                     },
@@ -251,7 +256,7 @@ export const SideBar = () => {
               mb: 2,
             }}
           >
-            <NavLink to="/profile" className="link_text">
+            <NavLink to="/auth/login" className="link_text">
               <ListItemButton
                 sx={{
                   width: "100%",
@@ -272,18 +277,20 @@ export const SideBar = () => {
                 >
                   <AccountCircleIcon
                     fontSize="small"
-                    sx={{
-                      color: "white",
-                    }}
+                    className="list_item_icon"
+                    // sx={{
+                    //   color: "white",
+                    // }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary="My Account"
+                  className="list_item_text"
                   sx={{
-                    color: "white",
+                    // color: "white",
                     my: 0.5,
                     ".MuiListItemText-primary": {
-                      fontSize: 16,
+                      fontSize: 18,
                       letterSpacing: "0.5px",
                       fontWeight: "semi",
                     },
