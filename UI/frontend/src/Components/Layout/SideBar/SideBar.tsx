@@ -1,20 +1,18 @@
+import React from "react";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { NavLink, useNavigate } from "react-router-dom";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Button, ListItemIcon, Paper, Typography } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FastForwardIcon from "@mui/icons-material/FastForward";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import { NavLink } from "react-router-dom";
+import { Box, Button, ListItemIcon, Paper, Typography } from "@mui/material";
+
 import { StandardCard } from "../../StandardCard/StandardCard";
+import { menuItems } from "./SideBarTypes";
 
 const drawerWidth = "250px";
 
 export const SideBar = () => {
-  const navigate = useNavigate();
   return (
     <Drawer
       sx={{
@@ -38,7 +36,7 @@ export const SideBar = () => {
           justifyContent: "unset",
           height: "100%",
           background: "rgb(41 41 41 / 65%)",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         <Paper
@@ -62,6 +60,7 @@ export const SideBar = () => {
           <Typography
             sx={{
               ml: "10px",
+              fontWeight: "bold",
             }}
           >
             Next up
@@ -69,6 +68,7 @@ export const SideBar = () => {
           <Typography
             sx={{
               ml: "10px",
+              fontWeight: "bold",
             }}
           >
             Add Bot to your website
@@ -96,209 +96,53 @@ export const SideBar = () => {
           </Button>
         </Paper>
         <List>
-          <ListItem
-            disablePadding
-            sx={{
-              mb: 2,
-            }}
-          >
-            <NavLink to="/main/upload" className="link_text">
-              <ListItemButton
+          {menuItems.map((item) => {
+            return (
+              <ListItem
+                disablePadding
                 sx={{
-                  width: "100%",
-                  borderRadius: "5px",
-                  transition: "all 0.5s ease-in-out",
-                  display: "flex",
-                  gap: "1vh",
-                  px: "unset",
-                  pl: 2,
+                  mb: 2,
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    "&": {
-                      minWidth: 0,
-                    },
-                  }}
-                >
-                  <CloudUploadIcon
-                    className="list_item_icon"
-                    fontSize="small"
-                    // sx={{
-                    //   color: "#9722E8",
-                    // }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Upload Document"
-                  className="list_item_text"
-                  sx={{
-                    // color: "#9722E8",
-                    my: 0.5,
-                    ".MuiListItemText-primary": {
-                      fontSize: 18,
-                      letterSpacing: "0.8px",
-                      // fontWeight: "bold",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-
-          <ListItem
-            disablePadding
-            sx={{
-              mb: 2,
-            }}
-          >
-            <NavLink to="/main/playground" className="link_text">
-              <ListItemButton
-                sx={{
-                  width: "100%",
-                  borderRadius: "5px",
-                  transition: "all 0.5s ease-in-out",
-                  display: "flex",
-                  gap: "1vh",
-                  px: "unset",
-                  pl: 2,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    "&": {
-                      minWidth: 0,
-                    },
-                  }}
-                >
-                  <LocalFireDepartmentIcon
-                    fontSize="small"
-                    className="list_item_icon"
-                    // sx={{
-                    //   color: "white",
-                    // }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Playground"
-                  className="list_item_text"
-                  sx={{
-                    // color: "white",
-                    my: 0.5,
-                    ".MuiListItemText-primary": {
-                      fontSize: 18,
-                      letterSpacing: "0.5px",
-                      fontWeight: "semi",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-
-          <ListItem
-            disablePadding
-            sx={{
-              mb: 2,
-            }}
-          >
-            <NavLink
-              to="/tutorial"
-              className="link_text"
-              onClick={() => navigate("/main/playground")}
-            >
-              <ListItemButton
-                sx={{
-                  width: "100%",
-                  borderRadius: "5px",
-                  transition: "all 0.5s ease-in-out",
-                  display: "flex",
-                  gap: "1vh",
-                  px: "unset",
-                  pl: 2,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    "&": {
-                      minWidth: 0,
-                    },
-                  }}
-                >
-                  <FastForwardIcon
-                    fontSize="small"
-                    className="list_item_icon"
-                    // sx={{
-                    //   color: "white",
-                    // }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Tutorial"
-                  className="list_item_text"
-                  sx={{
-                    // color: "white",
-                    my: 0.5,
-                    ".MuiListItemText-primary": {
-                      fontSize: 18,
-                      letterSpacing: "0.5px",
-                      fontWeight: "semi",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-
-          <ListItem
-            disablePadding
-            sx={{
-              mb: 2,
-            }}
-          >
-            <NavLink to="/auth/login" className="link_text">
-              <ListItemButton
-                sx={{
-                  width: "100%",
-                  borderRadius: "5px",
-                  transition: "all 0.5s ease-in-out",
-                  display: "flex",
-                  gap: "1vh",
-                  px: "unset",
-                  pl: 2,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    "&": {
-                      minWidth: 0,
-                    },
-                  }}
-                >
-                  <AccountCircleIcon
-                    fontSize="small"
-                    className="list_item_icon"
-                    // sx={{
-                    //   color: "white",
-                    // }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="My Account"
-                  className="list_item_text"
-                  sx={{
-                    // color: "white",
-                    my: 0.5,
-                    ".MuiListItemText-primary": {
-                      fontSize: 18,
-                      letterSpacing: "0.5px",
-                      fontWeight: "semi",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
+                <NavLink to={item.link} className="link_text">
+                  <ListItemButton
+                    sx={{
+                      width: "100%",
+                      borderRadius: "5px",
+                      transition: "all 0.5s ease-in-out",
+                      display: "flex",
+                      gap: "1vh",
+                      px: "unset",
+                      pl: 2,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        "&": {
+                          minWidth: 0,
+                        },
+                      }}
+                    >
+                      <Box className="list_item_icon">{item.listItemIcon}</Box>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.listItemText}
+                      className="list_item_text"
+                      sx={{
+                        // color: "#9722E8",
+                        my: 0.5,
+                        ".MuiListItemText-primary": {
+                          fontSize: 18,
+                          letterSpacing: "0.8px",
+                          // fontWeight: "bold",
+                        },
+                      }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            );
+          })}
         </List>
       </StandardCard>
     </Drawer>

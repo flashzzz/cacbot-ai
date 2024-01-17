@@ -26,11 +26,13 @@ export const ForgotPassword: React.FC = () => {
           margin: "auto",
           alignItems: "center",
           justifyContent: "center",
-          // mt: "10%",
+          bgcolor: "#ffffff29",
+          borderRadius: "1rem",
+          backdropFilter: "blur(50px)",
         }}
       >
         <Box>
-          <Typography variant="h4" fontWeight={"bold"}>
+          <Typography variant="h4" color={"white"} fontWeight={"bold"}>
             CACBOT.AI
           </Typography>
         </Box>
@@ -58,7 +60,7 @@ export const ForgotPassword: React.FC = () => {
             >
               <Button
                 startIcon={<KeyboardReturnRoundedIcon />}
-                variant="outlined"
+                variant="contained"
                 color={"primary"}
                 onClick={() => navigate("/auth/login")}
               >
