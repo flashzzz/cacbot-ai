@@ -4,7 +4,7 @@ export const CustomTextField = styled((props: TextFieldProps) => (
   <TextField fullWidth {...props} />
 ))(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
-    padding: "8px 13px",
+    padding: "9px 13px",
     fontSize: "0.8rem",
     color: "black",
     fontWeight: "550",

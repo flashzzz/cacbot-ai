@@ -6,7 +6,7 @@ import { PageContainer } from "../../Components/PageContainer/PageContainer";
 
 export const Login: React.FC = () => {
   return (
-    <PageContainer title="login" description="this is login page">
+    <PageContainer title="Login" description="this is login page">
       <Paper
         elevation={4}
         sx={{
@@ -21,11 +21,14 @@ export const Login: React.FC = () => {
           margin: "auto",
           alignItems: "center",
           justifyContent: "center",
+          bgcolor: "#ffffff29",
+          borderRadius: "1rem",
+          backdropFilter: "blur(50px)",
           // mt: "10%",
         }}
       >
         <Box>
-          <Typography variant="h4" fontWeight={"bold"}>
+          <Typography variant="h4" color={"white"} fontWeight={"bold"}>
             CACBOT.AI
           </Typography>
         </Box>
@@ -82,7 +85,7 @@ export const Login: React.FC = () => {
 
 const linkStye = {
   textDecoration: "none",
-  color: "#0024ff",
+  color: "rgb(202 204 214)",
   "&:hover": {
     textDecoration: "underline",
   },
