@@ -5,10 +5,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { NavLink } from "react-router-dom";
-import { Box, Button, ListItemIcon, Paper, Typography } from "@mui/material";
+import { Button, ListItemIcon, Paper, Typography } from "@mui/material";
 
 import { StandardCard } from "../../StandardCard/StandardCard";
-import { menuItems } from "./SideBarTypes";
+import FeatherIcon from "feather-icons-react";
+import { MenuItems } from "./SideBar.types";
 
 const drawerWidth = "250px";
 
@@ -96,7 +97,7 @@ export const SideBar = () => {
           </Button>
         </Paper>
         <List>
-          {menuItems.map((item) => {
+          {MenuItems.map((item) => {
             return (
               <ListItem
                 disablePadding
@@ -123,13 +124,15 @@ export const SideBar = () => {
                         },
                       }}
                     >
-                      <Box className="list_item_icon">{item.listItemIcon}</Box>
+                      <FeatherIcon
+                        className="list_item_icon"
+                        icon={item.listItemIcon}
+                      />
                     </ListItemIcon>
                     <ListItemText
                       primary={item.listItemText}
                       className="list_item_text"
                       sx={{
-                        // color: "#9722E8",
                         my: 0.5,
                         ".MuiListItemText-primary": {
                           fontSize: 18,
