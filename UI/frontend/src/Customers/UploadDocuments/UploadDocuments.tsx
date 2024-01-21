@@ -21,8 +21,14 @@ export const UploadDocuments: React.FC = () => {
   };
 
   const handleAddPdfLink = () => {
-    setpdfLinkArray([...pdfLinkArray, pdfLink]);
-    setPdfLink("");
+    if (pdfLink === "") {
+      alert("Please enter a link");
+    } else if (pdfLinkArray.includes(pdfLink)) {
+      alert("Link already exists");
+    } else {
+      setpdfLinkArray([...pdfLinkArray, pdfLink]);
+      setPdfLink("");
+    }
   };
 
   const handleNormalLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,17 +36,25 @@ export const UploadDocuments: React.FC = () => {
   };
 
   const handleAddNormalLink = () => {
-    setNormalLinkArray([...normalLinkArray, normalLink]);
-    setNormalLink("");
+    if (normalLink === "") {
+      alert("Please enter a link");
+    } else if (normalLinkArray.includes(normalLink)) {
+      alert("Link already exists");
+    } else {
+      setNormalLinkArray([...normalLinkArray, normalLink]);
+      setNormalLink("");
+    }
   };
 
   return (
     <PageContainer title="Upload Content" description="upload content page">
-      <StandardCard sx={{
-        // background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
-        backgroundColor: "rgb(41 41 41 / 85%)",
-        color: "#9722E8"
-      }}>
+      <StandardCard
+        sx={{
+          // background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
+          backgroundColor: "rgb(41 41 41 / 85%)",
+          color: "#9722E8",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -56,7 +70,6 @@ export const UploadDocuments: React.FC = () => {
               alignItems: "flex-start",
               justifyContent: "center",
               width: "100%",
-              
             }}
           >
             <Typography
@@ -64,7 +77,7 @@ export const UploadDocuments: React.FC = () => {
               fontWeight={400}
               sx={{
                 letterSpacing: 1,
-                color: "#9722E8"
+                color: "#9722E8",
               }}
             >
               Content Management
@@ -74,10 +87,10 @@ export const UploadDocuments: React.FC = () => {
               sx={{
                 letterSpacing: 1,
                 mt: 1,
-                color: "white"
+                color: "white",
               }}
             >
-              Manage your documnets, sources and knowledge which our bot will
+              Manage your documents, sources and knowledge which our bot will
               use while talking to you.
             </Typography>
             <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -105,7 +118,7 @@ export const UploadDocuments: React.FC = () => {
                       border: "1px solid grey",
                       padding: "2pc 1pc",
                       borderRadius: 2,
-                      background: "inherit",                
+                      background: "inherit",
                     }}
                   >
                     <Box
@@ -139,7 +152,9 @@ export const UploadDocuments: React.FC = () => {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h6">Files</Typography>
+                        <Typography variant="h6" color={"darkgrey"}>
+                          Files
+                        </Typography>
                         {pdfLinkArray.map((link) => {
                           return (
                             <Box
@@ -195,7 +210,7 @@ export const UploadDocuments: React.FC = () => {
                       }}
                     >
                       <CustomTextField
-                        placeholder="Enter link"
+                        placeholder="Enter Document's link"
                         value={normalLink}
                         fullWidth
                         onChange={handleNormalLinkChange}
@@ -215,7 +230,9 @@ export const UploadDocuments: React.FC = () => {
                           justifyContent: "center",
                         }}
                       >
-                        <Typography variant="h6">Files</Typography>
+                        <Typography variant="h6" color={"darkgrey"}>
+                          Files
+                        </Typography>
                         {normalLinkArray.map((link) => {
                           return (
                             <Box
