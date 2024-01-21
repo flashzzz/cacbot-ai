@@ -11,8 +11,12 @@ export const FileUpload: React.FC = () => {
     const selectedFiles = e.target.files;
     if (selectedFiles) {
       const filesArray = Array.from(selectedFiles);
-      const newInput = [...input, ...filesArray];
-      setInput(newInput);
+      if (input.includes(filesArray[0])) {
+        alert("File already exists");
+      } else {
+        const newInput = [...input, ...filesArray];
+        setInput(newInput);
+      }
     }
   };
 
@@ -31,7 +35,7 @@ export const FileUpload: React.FC = () => {
         }}
       >
         <AiFillFilePdf color="red" size="4vh" style={{ marginLeft: "2vh" }} />
-        <Typography variant="body1">{nameWithoutExtension}</Typography>
+        <Typography variant="body1" color={"grey"}>{nameWithoutExtension}</Typography>
       </Box>
     );
   });
@@ -52,7 +56,7 @@ export const FileUpload: React.FC = () => {
           letterSpacing={1}
           sx={{
             fontWeight: "bold",
-            color: "white"
+            color: "white",
           }}
         >
           Upload PDFs
@@ -100,7 +104,7 @@ export const FileUpload: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              <Typography variant="h6">Files</Typography>
+              <Typography variant="h6" color={"darkgrey"}>Files</Typography>
               {files}
             </Box>
           )}
