@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif !important;
+}
+#root{
+  background-color: #000000eb;
+}
+.hero_image {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  transform: translate(50%, 0%);
+  height: auto;
+  margin: auto;
+  z-index: -9999;
+  height: 100vh;
+}
+.link_text {
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+.active {
+  background: rgb(39 39 40);
+  color: black;
+  border-radius: 5px;
+}
+.list_item_text{
+  color: white;
+}
+.list_item_icon{
+  color: white;
+}
+
+.active .list_item_icon, .active .list_item_text{
+  color: #9722E8;
+}
+
+.attachFileSpan {
+  color: #2b6dad;
+  cursor: pointer;
+}
+.attachFileSpan:hover {
+  text-decoration: underline;
+}
+#file_input {
+  display: none;
+}
+
+.input_file_text {
+  cursor: pointer;
+  border: 1px dashed #2b6dad;
+  border-style: dashed;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  color: white;
+}
+.pdf_link{
+  text-decoration: none;
+  color: #008cff;
+}
+.pdf_link:hover{
+  text-decoration: underline;
+}
