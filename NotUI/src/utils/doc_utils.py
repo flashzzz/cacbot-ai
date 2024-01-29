@@ -10,19 +10,19 @@ from src.utils.logging_utils import custom_logging
 from src.constants.doc_types import DocType
 custom_logging()
 
-def load_txt(file_path: str)-> list:
-    """Load text file from given path.
+# def load_txt(file_path: str)-> list:
+#     """Load text file from given path.
 
-    Args:
-        file_path (str): Path to the text file
+#     Args:
+#         file_path (str): Path to the text file
 
-    Returns:
-        list: List of Langchain Document objects
-    """
+#     Returns:
+#         list: List of Langchain Document objects
+#     """
 
-    documents = TextLoader(file_path).load()
-    logging.info(f'Loaded {len(documents)} documents from [TEXT FILE]')
-    return documents
+#     documents = TextLoader(file_path).load()
+#     logging.info(f'Loaded {len(documents)} documents from [TEXT FILE]')
+#     return documents
 
 
 def load_pdf(file_path: str)-> list:
