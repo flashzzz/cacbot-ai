@@ -56,6 +56,21 @@ const LazyForgotPassword = Loadable(
   )
 );
 
+const LazyMyAccount = Loadable(
+  lazy(() => 
+  import("./Customers/MyAccount/MyAccount").then(( { MyAccount }) => ({
+    default: MyAccount,
+  }))
+  )
+)
+const LazyCryptKey = Loadable(
+  lazy(() => 
+  import("./Customers/CryptKey/CryptKey").then(( { CryptKey }) => ({
+    default: CryptKey,
+  }))
+  )
+)
+
 export const Router = [
   {
     path: "/",
@@ -76,6 +91,16 @@ export const Router = [
         path: "/main/playground",
         exact: true,
         element: <LazyUploadDocuments />,
+      },
+      {
+        path: "/main/my-account",
+        exact: true,
+        element: <LazyMyAccount />,
+      },
+      {
+        path: "/main/my-keys",
+        exact: true,
+        element: <LazyCryptKey />,
       },
     ],
   },

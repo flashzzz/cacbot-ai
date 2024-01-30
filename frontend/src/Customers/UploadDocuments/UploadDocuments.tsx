@@ -50,10 +50,7 @@ export const UploadDocuments: React.FC = () => {
     <PageContainer title="Upload Content" description="upload content page">
       <StandardCard
         sx={{
-          // background: "linear-gradient(120deg, #e2e2e2, #9a9ee0)",
-          backgroundColor: "rgb(41 41 41 / 85%)",
           color: "#9722E8",
-          minHeight: "100vh",
           justifyContent: "unset",
         }}
       >

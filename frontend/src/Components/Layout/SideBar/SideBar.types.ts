@@ -21,12 +21,12 @@ export const MenuItems: IMenuItems[] = [
     listItemText: "Tutorial",
   },
   {
-    link: "/main/myTokens",
+    link: "/main/my-keys",
     listItemIcon: "key",
     listItemText: "Crypt Key",
   },
   {
-    link: "/auth/login",
+    link: "/main/my-account",
     listItemIcon: "user",
     listItemText: "My Account",
   },
