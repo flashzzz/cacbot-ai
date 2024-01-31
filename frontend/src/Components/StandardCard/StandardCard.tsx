@@ -21,10 +21,10 @@ export const StandardCard: React.FC<IStandardCardProps> = (props) => {
         alignItems: "flex-start",
         justifyContent: "flex-start",
         borderRadius: 2,
-        padding: "20px",
+        padding: "30px",
         backgroundColor: "rgb(41 41 41 / 85%)",
-        minHeight: "100vh",
-        color: "#9722E8",
+        my: 2,
+        // minHeight: "100vh",
         ...sx,
       }}
     >
@@ -34,7 +34,13 @@ export const StandardCard: React.FC<IStandardCardProps> = (props) => {
         alignItems={"center"}
         width={"100%"}
       >
-        <Typography variant="h4" fontWeight={"bold"}>
+        <Typography
+          variant="h4"
+          fontWeight={"500"}
+          sx={{
+            color: "#9722E8",
+          }}
+        >
           {heading}
         </Typography>
         {isNode && rightHeading}
@@ -45,7 +51,16 @@ export const StandardCard: React.FC<IStandardCardProps> = (props) => {
         )}
       </Box>
 
-      {heading && <Divider sx={{ mt: 2 }} />}
+      {heading && (
+        <Divider
+          sx={{
+            mt: 2,
+            mb: 3,
+            width: "100%",
+            borderColor: "rgb(255 255 255 / 28%)",
+          }}
+        />
+      )}
       <Box width={"100%"}>{children}</Box>
     </Paper>
   );

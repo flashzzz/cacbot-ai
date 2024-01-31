@@ -81,7 +81,7 @@ export const CryptKey: React.FC = () => {
       <StandardCard
         heading="Chatbot application API Keys"
         rightHeading={
-          <Button variant="contained" startIcon={<AddIcon />}>
+          <Button variant="contained" color="secondary" startIcon={<AddIcon />}>
             Add Key
           </Button>
         }

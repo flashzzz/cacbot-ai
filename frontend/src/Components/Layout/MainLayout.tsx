@@ -10,7 +10,7 @@ export const MainLayout = () => {
         minHeight: "100vh",
         width: "100%",
         margin: "auto",
-        padding: "1rem",
+        paddingX: "1rem",
       }}
     >
       <SideBar />
