@@ -27,7 +27,6 @@ export const SideBar = () => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           maxWidth: drawerWidth,
-          paddingTop: "1rem",
         },
       }}
       variant="permanent"
