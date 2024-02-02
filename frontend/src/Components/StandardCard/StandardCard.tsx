@@ -54,7 +54,7 @@ export const StandardCard: React.FC<IStandardCardProps> = (props) => {
       {heading && (
         <Divider
           sx={{
-            mt: 2,
+            mt: 1,
             mb: 3,
             width: "100%",
             borderColor: "rgb(255 255 255 / 28%)",
