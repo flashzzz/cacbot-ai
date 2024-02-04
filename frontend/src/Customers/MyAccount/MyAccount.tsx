@@ -100,6 +100,7 @@ export const MyAccount = () => {
                 style={{ display: "none" }}
                 id="file-upload"
                 type="file"
+                accept="image/*"
                 onChange={onFileChange}
               />
               <label htmlFor="file-upload">

@@ -258,6 +258,7 @@ export const UploadDocuments: React.FC = () => {
                   endIcon={<SendRoundedIcon />}
                   variant="contained"
                   size="large"
+                  // onClick={handleClick}
                 >
                   Submit
                 </Button>
