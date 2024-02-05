@@ -9,6 +9,7 @@ import { FcBrokenLink } from "react-icons/fc";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { CustomTextField } from "../../Components/CustomTextField/CustomTextField";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
+import axios from "axios";
 
 export const UploadDocuments: React.FC = () => {
   const [pdfLink, setPdfLink] = React.useState<string>("");
@@ -46,6 +47,20 @@ export const UploadDocuments: React.FC = () => {
     }
   };
 
+  const api: string = "http://127.0.0.1:80";
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    pdfLinkArray.forEach((link, index) => {
+      formData.append(`pdfLink-${index}`, link);
+    });
+
+    axios.post(`${api}/main/uploads`, formData);
+    alert("PDF links uploaded successfully");
+  }
+
   return (
     <PageContainer title="Upload Content" description="upload content page">
       <StandardCard
@@ -54,218 +69,228 @@ export const UploadDocuments: React.FC = () => {
           justifyContent: "unset",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            color: "black",
-            gap: "5vw",
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <Box
             sx={{
-              color: "black",
               display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              width: "100%",
+              color: "black",
+              gap: "5vw",
             }}
           >
-            <Typography
-              variant="h3"
-              fontWeight={400}
+            <Box
               sx={{
-                letterSpacing: 1,
-                color: "#9722E8",
+                color: "black",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "center",
+                width: "100%",
               }}
             >
-              Content Management
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                letterSpacing: 1,
-                mt: 1,
-                color: "white",
-              }}
-            >
-              Manage your documents, sources and knowledge which our bot will
-              use while talking to you.
-            </Typography>
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid item xs={12} sm={6} lg={4}>
-                <FileUpload />
-              </Grid>
+              <Typography
+                variant="h3"
+                fontWeight={400}
+                sx={{
+                  letterSpacing: 1,
+                  color: "#9722E8",
+                }}
+              >
+                Content Management
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  letterSpacing: 1,
+                  mt: 1,
+                  color: "white",
+                }}
+              >
+                Manage your documents, sources and knowledge which our bot will
+                use while talking to you.
+              </Typography>
 
-              <Grid item xs={12} sm={6} lg={4}>
-                <Box>
-                  <Typography
-                    variant="h5"
-                    letterSpacing={1}
-                    fontWeight={"bold"}
-                    color={"white"}
-                  >
-                    Upload PDF's Link
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      justifyContent: "space-between",
-                      mt: 2,
-                      border: "1px solid grey",
-                      padding: "2pc 1pc",
-                      borderRadius: 2,
-                      background: "inherit",
-                    }}
-                  >
+              <Grid container spacing={2} sx={{ mt: 2 }}>
+                <Grid item xs={12} sm={6} lg={4}>
+                  <FileUpload />
+                </Grid>
+
+                <Grid item xs={12} sm={6} lg={4}>
+                  <Box>
+                    <Typography
+                      variant="h5"
+                      letterSpacing={1}
+                      fontWeight={"bold"}
+                      color={"white"}
+                    >
+                      Upload PDF's Link
+                    </Typography>
                     <Box
                       sx={{
                         display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
                         justifyContent: "space-between",
-                        gap: "10px",
-                        width: "100%",
+                        mt: 2,
+                        border: "1px solid grey",
+                        padding: "2pc 1pc",
+                        borderRadius: 2,
+                        background: "inherit",
                       }}
                     >
-                      <CustomTextField
-                        placeholder="Enter PDF's link"
-                        value={pdfLink}
-                        fullWidth
-                        onChange={handlePdfLinkChange}
-                      />
-                      <Button variant="contained" onClick={handleAddPdfLink}>
-                        Add
-                      </Button>
-                    </Box>
-
-                    {pdfLinkArray.length > 0 && (
                       <Box
                         sx={{
-                          mt: 2,
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: "10px",
+                          width: "100%",
                         }}
                       >
-                        <Typography variant="h6" color={"darkgrey"}>
-                          Files
-                        </Typography>
-                        {pdfLinkArray.map((link) => {
-                          return (
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              justifyContent={"flex-start"}
-                              gap={"10px"}
-                            >
-                              <FcLink color="blue" size="4vh" />
-                              <Link to={`${link}`} className="pdf_link">
-                                <Typography variant="body1">{link}</Typography>
-                              </Link>
-                            </Box>
-                          );
-                        })}
+                        <CustomTextField
+                          placeholder="Enter PDF's link"
+                          value={pdfLink}
+                          fullWidth
+                          onChange={handlePdfLinkChange}
+                        />
+                        <Button variant="contained" onClick={handleAddPdfLink}>
+                          Add
+                        </Button>
                       </Box>
-                    )}
-                  </Box>
-                </Box>
-              </Grid>
 
-              <Grid item xs={12} sm={6} lg={4}>
-                <Box>
-                  <Typography
-                    variant={"h5"}
-                    letterSpacing={1}
-                    fontWeight={"bold"}
-                    color={"white"}
-                  >
-                    Upload Document links
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      justifyContent: "space-between",
-                      mt: 2,
-                      border: "1px solid grey",
-                      padding: "2pc 1pc",
-                      borderRadius: 2,
-                      background: "inherit",
-                    }}
-                  >
+                      {pdfLinkArray.length > 0 && (
+                        <Box
+                          sx={{
+                            mt: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography variant="h6" color={"darkgrey"}>
+                            Files
+                          </Typography>
+                          {pdfLinkArray.map((link) => {
+                            return (
+                              <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                justifyContent={"flex-start"}
+                                gap={"10px"}
+                              >
+                                <FcLink color="blue" size="4vh" />
+                                <Link to={`${link}`} className="pdf_link">
+                                  <Typography variant="body1">
+                                    {link}
+                                  </Typography>
+                                </Link>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} sm={6} lg={4}>
+                  <Box>
+                    <Typography
+                      variant={"h5"}
+                      letterSpacing={1}
+                      fontWeight={"bold"}
+                      color={"white"}
+                    >
+                      Upload Document links
+                    </Typography>
                     <Box
                       sx={{
                         display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
                         justifyContent: "space-between",
-                        gap: "10px",
-                        width: "100%",
+                        mt: 2,
+                        border: "1px solid grey",
+                        padding: "2pc 1pc",
+                        borderRadius: 2,
+                        background: "inherit",
                       }}
                     >
-                      <CustomTextField
-                        placeholder="Enter Document's link"
-                        value={normalLink}
-                        fullWidth
-                        onChange={handleNormalLinkChange}
-                      />
-                      <Button variant="contained" onClick={handleAddNormalLink}>
-                        Add
-                      </Button>
-                    </Box>
-
-                    {normalLinkArray.length > 0 && (
                       <Box
                         sx={{
-                          mt: 2,
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: "10px",
+                          width: "100%",
                         }}
                       >
-                        <Typography variant="h6" color={"darkgrey"}>
-                          Files
-                        </Typography>
-                        {normalLinkArray.map((link) => {
-                          return (
-                            <Box
-                              display={"flex"}
-                              alignItems={"center"}
-                              justifyContent={"flex-start"}
-                              gap={"10px"}
-                            >
-                              <FcBrokenLink color="blue" size="4vh" />
-                              <Link to={`${link}`} className="pdf_link">
-                                <Typography variant="body1">{link}</Typography>
-                              </Link>
-                            </Box>
-                          );
-                        })}
+                        <CustomTextField
+                          placeholder="Enter Document's link"
+                          value={normalLink}
+                          fullWidth
+                          onChange={handleNormalLinkChange}
+                        />
+                        <Button
+                          variant="contained"
+                          onClick={handleAddNormalLink}
+                        >
+                          Add
+                        </Button>
                       </Box>
-                    )}
-                  </Box>
-                </Box>
-              </Grid>
 
-              <Grid item xs={12} sm={6} lg={2}>
-                <Button
-                  endIcon={<SendRoundedIcon />}
-                  variant="contained"
-                  size="large"
-                  // onClick={handleClick}
-                >
-                  Submit
-                </Button>
+                      {normalLinkArray.length > 0 && (
+                        <Box
+                          sx={{
+                            mt: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography variant="h6" color={"darkgrey"}>
+                            Files
+                          </Typography>
+                          {normalLinkArray.map((link) => {
+                            return (
+                              <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                justifyContent={"flex-start"}
+                                gap={"10px"}
+                              >
+                                <FcBrokenLink color="blue" size="4vh" />
+                                <Link to={`${link}`} className="pdf_link">
+                                  <Typography variant="body1">
+                                    {link}
+                                  </Typography>
+                                </Link>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} sm={6} lg={2}>
+                  <Button
+                    endIcon={<SendRoundedIcon />}
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+        </form>
       </StandardCard>
     </PageContainer>
   );
