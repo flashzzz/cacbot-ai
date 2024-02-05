@@ -1,8 +1,9 @@
-from langchain.document_loaders import TextLoader
-from langchain.document_loaders import UnstructuredPDFLoader
-from langchain.document_loaders import OnlinePDFLoader
-from langchain.document_loaders import UnstructuredURLLoader
+from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import UnstructuredPDFLoader
+from langchain_community.document_loaders import OnlinePDFLoader
+from langchain_community.document_loaders import UnstructuredURLLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents.base import Document
 from typing import Union
 import logging
 
@@ -10,19 +11,19 @@ from src.utils.logging_utils import custom_logging
 from src.constants.doc_types import DocType
 custom_logging()
 
-# def load_txt(file_path: str)-> list:
-#     """Load text file from given path.
+def load_txt(file_path: str)-> list:
+    """Load text file from given path.
 
-#     Args:
-#         file_path (str): Path to the text file
+    Args:
+        file_path (str): Path to the text file
 
-#     Returns:
-#         list: List of Langchain Document objects
-#     """
+    Returns:
+        list: List of Langchain Document objects
+    """
 
-#     documents = TextLoader(file_path).load()
-#     logging.info(f'Loaded {len(documents)} documents from [TEXT FILE]')
-#     return documents
+    documents = TextLoader(file_path).load()
+    logging.info(f'Loaded {len(documents)} documents from [TEXT FILE]')
+    return documents
 
 
 def load_pdf(file_path: str)-> list:
@@ -68,7 +69,7 @@ def load_url(urls: list[str])-> list:
     logging.info(f'Loaded {len(documents)} documents from [URL]')
     return documents
 
-def load_and_split_doc(paths: list[tuple], org_id: str)-> list[langchain.Document]: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
+def load_and_split_doc(paths: list[tuple], org_id: str)-> list[Document]: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
 
     """
     Load and split documents from given paths.
