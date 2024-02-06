@@ -51,14 +51,15 @@ export const UploadDocuments: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    pdfLinkArray.forEach((link, index) => {
-      formData.append(`pdfLink-${index}`, link);
-    });
+    // pdfLinkArray.forEach((link, index) => {
+    //   formData.append(`pdfLink-${index}`, link);
+    // });
+    // formData.append("username", "jhjuuu");
 
-    axios.post(`${api}/main/uploads`, formData);
-    alert("PDF links uploaded successfully");
+    // axios.post(`${api}/main`, "sfsfsfs");
+    // alert("PDF links uploaded successfully");
   }
 
   return (
@@ -69,7 +70,7 @@ export const UploadDocuments: React.FC = () => {
           justifyContent: "unset",
         }}
       >
-        <form onSubmit={handleSubmit}>
+        <form action="http://127.0.0.1:80/main" method="POST">
           <Box
             sx={{
               display: "flex",
@@ -151,6 +152,7 @@ export const UploadDocuments: React.FC = () => {
                           placeholder="Enter PDF's link"
                           value={pdfLink}
                           fullWidth
+                          name="username"
                           onChange={handlePdfLinkChange}
                         />
                         <Button variant="contained" onClick={handleAddPdfLink}>
