@@ -9,7 +9,7 @@ interface UpsertMetaData {
 const embedQuery = async (query: string) => {
   const embeddings = new OpenAIEmbeddings({
     modelName: "text-embedding-3-large",
-    openAIApiKey: "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",
+    openAIApiKey: "api_key",
   });
   const res = await embeddings.embedQuery(query as string);
   return res;
@@ -22,7 +22,7 @@ class VectorStore {
   constructor(user_id: string) {
     // Initialize Pinecone and embedding model
     this.pc = new Pinecone({
-      apiKey: "52bd630e-d03e-414e-bda6-2b1fad7cf686",
+      apiKey: "api_key",
     });
 
     this.index_name = user_id;
