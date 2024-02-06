@@ -24,6 +24,7 @@ class VectorStore:
             pinecone.create_index(name=self.index_name, metric="cosine", dimension=3072)
         
         logging.info(f'Pinecone and Text Embedding Model initialized for user {user_id}')
+        self.vectorstore = Pinecone.from_existing_index(self.index_name, self.embedding_model)
         return
 
     def semantic_search(self, query: str, mmr=False, k=5)-> list[Document]:
@@ -38,12 +39,11 @@ class VectorStore:
         Returns:
             list[Document]: A list of retrieved documents.
         """
-        vectorstore = Pinecone.from_existing_index(self.index_name, self.embedding_model)
 
         if mmr:
-            retrieved_chunks = vectorstore.max_marginal_relevance_search(query, k=k, fetch_k=10)
+            retrieved_chunks = self.vectorstore.max_marginal_relevance_search(query, k=k, fetch_k=10)
         else:
-            retrieved_chunks = vectorstore.similarity_search(query, k=k)
+            retrieved_chunks = self.vectorstore.similarity_search(query, k=k)
         
         logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone for query: {query}')
         return retrieved_chunks
@@ -58,8 +58,7 @@ class VectorStore:
         Returns:
             None
         """
-        vectorstore = Pinecone.from_existing_index(self.index_name, self.embedding_model)
-        vectorstore.add_documents(docs)
+        self.vectorstore.add_documents(docs)
         logging.info(f'Upserted {len(docs)} documents to Pinecone')
         return
     
