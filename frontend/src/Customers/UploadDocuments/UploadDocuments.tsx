@@ -10,12 +10,17 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { CustomTextField } from "../../Components/CustomTextField/CustomTextField";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
 import axios from "axios";
+import { AiFillFilePdf } from "react-icons/ai";
+import BackupIcon from "@mui/icons-material/Backup";
+import { api } from "../../api/api";
+// import { env } from 'node:process';
 
 export const UploadDocuments: React.FC = () => {
   const [pdfLink, setPdfLink] = React.useState<string>("");
   const [pdfLinkArray, setpdfLinkArray] = React.useState<string[]>([]);
   const [normalLink, setNormalLink] = React.useState<string>("");
   const [normalLinkArray, setNormalLinkArray] = React.useState<string[]>([]);
+  const [documentArray, setDocumentArray] = React.useState<File[]>([]);
 
   const handlePdfLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPdfLink(e.target.value);
@@ -47,20 +52,68 @@ export const UploadDocuments: React.FC = () => {
     }
   };
 
-  const api: string = "http://127.0.0.1:80";
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles);
+      if (documentArray.includes(filesArray[0])) {
+        alert("File already exists");
+      } else {
+        const newInput = [...documentArray, ...filesArray];
+        setDocumentArray(newInput);
+      }
+    }
+  };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const files = documentArray.map((file, index) => {
+    const nameWithoutExtension = file.name.split(".")[0];
+    return (
+      <Box
+        key={index}
+        sx={{
+          width: "100%",
+          margin: "auto",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
+        <AiFillFilePdf color="red" size="4vh" style={{ marginLeft: "2vh" }} />
+        <Typography variant="body1" color={"grey"}>
+          {nameWithoutExtension}
+        </Typography>
+      </Box>
+    );
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const formData = new FormData();
+    const finalData = [...pdfLinkArray, ...normalLinkArray, ...documentArray];
+    const formData = new FormData();
+    documentArray.forEach((file, index) => {
+      formData.append(`file-${index}`, file);
+    });
 
-    // pdfLinkArray.forEach((link, index) => {
-    //   formData.append(`pdfLink-${index}`, link);
-    // });
-    // formData.append("username", "jhjuuu");
+    setpdfLinkArray([]);
+    setNormalLinkArray([]);
+    setDocumentArray([]);
 
-    // axios.post(`${api}/main`, "sfsfsfs");
-    // alert("PDF links uploaded successfully");
-  }
+    await api
+      .post(`/main/uploads/file`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        alert("PDF links uploaded successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Error uploading PDF links");
+      });
+  };
 
   return (
     <PageContainer title="Upload Content" description="upload content page">
@@ -70,7 +123,7 @@ export const UploadDocuments: React.FC = () => {
           justifyContent: "unset",
         }}
       >
-        <form action="http://127.0.0.1:80/main" method="POST">
+        <form onSubmit={handleSubmit}>
           <Box
             sx={{
               display: "flex",
@@ -112,7 +165,73 @@ export const UploadDocuments: React.FC = () => {
 
               <Grid container spacing={2} sx={{ mt: 2 }}>
                 <Grid item xs={12} sm={6} lg={4}>
-                  <FileUpload />
+                  <Box
+                    sx={{
+                      // border: "1px solid grey",
+                      height: "auto",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      letterSpacing={1}
+                      sx={{
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      Upload PDFs
+                    </Typography>
+                    <Box
+                      sx={{
+                        border: "1px solid grey",
+                        mt: "10px",
+                        padding: "1pc",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "100%",
+                          background: "inherit",
+                        }}
+                      >
+                        <input
+                          type="file"
+                          id="file_input"
+                          multiple
+                          accept="application/pdf"
+                          onChange={handlePdfChange}
+                        />
+                        <label htmlFor="file_input" className="input_file_text">
+                          <BackupIcon
+                            sx={{
+                              color: "white",
+                              fontSize: "3rem",
+                            }}
+                          />
+                          Select files
+                        </label>
+                      </Box>
+
+                      {files.length > 0 && (
+                        <Box
+                          sx={{
+                            mt: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography variant="h6" color={"darkgrey"}>
+                            Files
+                          </Typography>
+                          {files}
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
                 </Grid>
 
                 <Grid item xs={12} sm={6} lg={4}>

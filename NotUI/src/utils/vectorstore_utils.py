@@ -8,13 +8,13 @@ from src.utils.logging_utils import custom_logging
 custom_logging()
 
 os.environ.get("OPENAI_API_KEY")
-os.environ.get("PINECONE_API_KEY_CAC")
+os.environ.get("PINECONE_API_KEY")
 
 class VectorStore:
     def __init__(self, user_id: str)-> None:
         # Initialize pinecone and embedding model
         pinecone.init(
-            api_key=os.environ.get("PINECONE_API_KEY_CAC"),  # find at app.pinecone.io
+            api_key=os.environ.get("PINECONE_API_KEY"),  # find at app.pinecone.io
             environment="gcp-starter",
         )
         

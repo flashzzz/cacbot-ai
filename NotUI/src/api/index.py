@@ -5,4 +5,4 @@ from src.routes.routes import document_bp
 
 app = Flask(__name__)
 app.register_blueprint(document_bp)
-CORS(app)
+CORS(app, debug=True)

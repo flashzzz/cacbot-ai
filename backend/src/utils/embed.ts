@@ -1,15 +1,18 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { Document } from "langchain/document";
+import EventEmitter from "eventemitter3";
 
 interface UpsertMetaData {
   doc: Document<Record<string, any>>;
 }
 
+const eventEmitter = new EventEmitter();
+
 const embedQuery = async (query: string) => {
   const embeddings = new OpenAIEmbeddings({
     modelName: "text-embedding-3-large",
-    openAIApiKey: "api_key",
+    openAIApiKey: process.env.OPENAI_API_KEY as string,
   });
   const res = await embeddings.embedQuery(query as string);
   return res;
@@ -22,12 +25,12 @@ class VectorStore {
   constructor(user_id: string) {
     // Initialize Pinecone and embedding model
     this.pc = new Pinecone({
-      apiKey: "api_key",
+      apiKey: process.env.PINECONE_API_KEY as string,
     });
 
     this.index_name = user_id;
     console.log("User ID value set");
-  };
+  }
 
   async initializeIndex() {
     try {
@@ -74,6 +77,30 @@ class VectorStore {
         dimension: 3072,
       });
       console.log("Index created");
+    }
+  }
+
+  public async semanticSearch(userQuery: string) {
+    const userQueryEmbedding = await embedQuery(userQuery);
+    try {
+      const index = this.pc.index("barryallen");
+      console.log("Executing query with embedding:", userQueryEmbedding);
+      let response;
+      await index
+        .query({
+          topK: 3,
+          vector: userQueryEmbedding,
+          includeValues: true,
+        })
+        .then((res) => {
+          response = res;
+        });
+
+      console.log("Querying Pinecone", response);
+      return response;
+    } catch (error) {
+      console.error("Error during Pinecone query:", error);
+      throw error;
     }
   }
 
@@ -127,16 +154,53 @@ class VectorStore {
     }
 
     // Upsert a record in the default namespace
+    const stats = await index.describeIndexStats();
     await index.upsert(records);
+    const statsSecond = await index.describeIndexStats();
+    console.log("Stats beforr", stats);
+    console.log("Stats After",  statsSecond);
   };
+
+  public deleteIndex = async () => {
+    await this.pc.deleteIndex("barryallen");
+  }
 }
 
 const obj = new VectorStore("barryallen");
-obj.initializeIndex()
+obj
+  .initializeIndex()
   .then(() => {
-    obj.upsert(["Jon Snow", "king in the North"]);
-    console.log("Upserted");
+    obj
+      .upsert([
+        "Jon",
+        "Bran",
+        "Minato is God of Shinobi",
+        // "The Northern lords declare Jon the new King in the North. Meanwhile, Bran Stark has a vision of the past which shows Ned reuniting with his dying sister Lyanna Stark in the Tower of Joy. She makes him swear to protect her son with Rhaegar Targaryen, who is revealed to be Jon.",
+        // "When it comes to physical strength, there's no doubt that Naruto has surpassed the Fourth Hokage. Although Minato was quite powerful himself, he had his limits as a ninja. As the Nine-Tails Jinchuriki, Naruto had access to two types of chakra for most of his life which granted him increased durability and strength.",
+      ])
+      .then(() => {
+        console.log("Upserted");
+        obj
+          .semanticSearch("Who is Minato?")
+          .then((res) => {
+            console.log("Semantic search result");
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error("Error during search:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error during upsert:", error);
+      });
   })
   .catch((error) => {
     console.error("Error during initialization:", error);
   });
+
+
+// obj.semanticSearch("Who is Minato?").then((res) => {
+//   console.log(res);
+// }).catch((error) => {
+//   console.error("Error during search:", error);
+// });
