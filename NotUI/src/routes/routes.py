@@ -13,7 +13,7 @@ def delete(path: str):
 def get_data(): 
     data = request.get_json()
     print("data" , data)
-    return {'message': 'Data received successfully'}
+    return data
 
 @document_bp.post('/main/uploads/file')
 def get_data_file(): 
@@ -34,4 +34,9 @@ def get_data_file():
     return {'message': 'File received successfully'}
 
 
+@document_bp.post('/playground')
+def playground():
+    data = request.get_json()
+    print("data" , data)
+    return data
 
