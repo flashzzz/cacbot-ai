@@ -7,7 +7,7 @@ import { FcLink } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { FcBrokenLink } from "react-icons/fc";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import { CustomTextField } from "../../Components/CustomTextField/CustomTextField";
+import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
 import axios from "axios";
 import { AiFillFilePdf } from "react-icons/ai";
@@ -89,7 +89,7 @@ export const UploadDocuments: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const finalData = [...pdfLinkArray, ...normalLinkArray, ...documentArray];
+    const finalData = [...pdfLinkArray, ...normalLinkArray];
     const formData = new FormData();
     documentArray.forEach((file, index) => {
       formData.append(`file-${index}`, file);
@@ -98,6 +98,16 @@ export const UploadDocuments: React.FC = () => {
     setpdfLinkArray([]);
     setNormalLinkArray([]);
     setDocumentArray([]);
+
+    await api.post(`/main/uploads`, {
+      ...finalData,
+    }).then((res) => {
+      console.log(res);
+      alert("Links uploaded successfully");
+    }).catch((err) => {
+      console.log(err);
+      alert("Error uploading links");
+    })
 
     await api
       .post(`/main/uploads/file`, formData, {
@@ -111,7 +121,7 @@ export const UploadDocuments: React.FC = () => {
       })
       .catch((err) => {
         console.log(err);
-        alert("Error uploading PDF links");
+        alert("Error uploading PDF files");
       });
   };
 

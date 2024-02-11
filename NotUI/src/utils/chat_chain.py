@@ -7,15 +7,16 @@ from langchain_openai import ChatOpenAI
 
 def retrieval_chat_chain(user_query: str, context: list[Document]) -> str:
     """
-    This function generates a response to a user query based on the provided context using the ChatGPT model.
+    Chat with the language model using the provided user query and context.
 
     Args:
         user_query (str): The user's query.
-        context (str): The context in which the query is being asked.
+        context (str): The context for the conversation.
 
     Returns:
-        str: The generated response to the user query.
+        str: The response from the language model.
     """
+    
     llm = ChatOpenAI(api_key=os.environ.get("OPENAI_API_KEY"), model="gpt-3.5-turbo")
 
     prompt = ChatPromptTemplate.from_template("""Answer the following question based only on the provided context:

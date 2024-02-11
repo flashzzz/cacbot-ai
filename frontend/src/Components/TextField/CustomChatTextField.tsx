@@ -1,11 +1,15 @@
 import { TextField, TextFieldProps, styled } from "@mui/material";
 
-export const CustomTextField = styled((props: TextFieldProps) => (
+export const CustomChatTextField = styled((props: TextFieldProps) => (
   <TextField fullWidth {...props} />
 ))(({ theme }) => ({
+  "& .MuiFormControl-fullWidth": {
+    width: "60%",
+    borderRadius: "25px",
+  },
   "& .MuiOutlinedInput-input": {
-    padding: "9px 13px",
-    fontSize: "0.8rem",
+    padding: "18px",
+    fontSize: "1rem",
     color: "black",
     fontWeight: "550",
   },
@@ -17,5 +21,4 @@ export const CustomTextField = styled((props: TextFieldProps) => (
     "-webkit-appearance": "none",
     margin: 0,
   },
-
 }));

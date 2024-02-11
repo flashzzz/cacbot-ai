@@ -11,12 +11,9 @@ def delete(path: str):
 
 @document_bp.post('/main/uploads')
 def get_data(): 
-    # uploaded_file = request.form.get('file')
     data = request.get_json()
-    files = request.get('files')
-    # print(data)
-    print("files" , files)
-    return files
+    print("data" , data)
+    return {'message': 'Data received successfully'}
 
 @document_bp.post('/main/uploads/file')
 def get_data_file(): 
@@ -26,8 +23,7 @@ def get_data_file():
 
     # for file in request.files:
     #     print(file, request.files[file])
-    data = request.get_json() # all the links
-    uploaded_file = request.files['huhu'] # all the pdf which is uploaded
+    uploaded_file = request.files['file-0'] # all the pdf which is uploaded
     filename = secure_filename(uploaded_file.filename)
     destination="/".join([target, filename])
     uploaded_file.save(destination)
