@@ -1,31 +1,49 @@
 import os
 import logging
-import pinecone
-from langchain_community.vectorstores import Pinecone
+from pinecone import Pinecone, PodSpec
 from langchain_core.documents.base import Document
 from langchain_openai import OpenAIEmbeddings
 from src.utils.logging_utils import custom_logging
 custom_logging()
 
+def embed_docs(docs: list[str])-> list[float]:
+    """
+    Embeds the given text using OpenAI's text-embedding-3-large model.
+
+    Args:
+        text list[str]: The list of texts to be embedded.
+
+    Returns:
+        list[list[float]]: The embedded vectors for each text.
+    """
+    embedding_model = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ.get("OPENAI_API_KEY"))
+    embeddings = embedding_model.embed_documents(docs)
+    return embeddings
 
 class VectorStore:
-    def __init__(self, user_id: str)-> None:
+    def __init__(self, user_id: str, docs: list[str])-> None:
         # Initialize pinecone and embedding model
-        pinecone.init(
-            api_key=os.environ.get("PINECONE_API_KEY"),  # find at app.pinecone.io
-            environment="gcp-starter",
-        )
-        
+        pc = Pinecone(api_key=os.environ.get('PINECONE_API_KEY'))        
         self.index_name = user_id
-        self.embedding_model = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ.get("OPENAI_API_KEY"))
-        if self.index_name not in pinecone.list_indexes():
-            pinecone.create_index(name=self.index_name, metric="cosine", dimension=3072)
+
+        if self.index_name not in pc.list_indexes().names():
+            pc.create_index(
+                name=self.index_name,
+                dimension=3072,
+                metric="cosine",
+                spec=PodSpec(
+                    environment="gcp-starter"
+                )
+            )
+        self.data_map = {}
+        for i, doc in enumerate(docs):
+            self.data_map[f'doc_chunk_{i}'] = doc
         
-        logging.info(f'Pinecone and Text Embedding Model initialized for user {user_id}')
-        self.vectorstore = Pinecone.from_existing_index(self.index_name, self.embedding_model)
+        self.pc_index = pc.Index(self.index_name)
+        logging.info(f'Initialized Pinecone Index({self.index_name}) for UserID: {self.index_name}')
         return
 
-    def semantic_search(self, query: str, mmr=False, k=5)-> list[Document]:
+    def semantic_search(self, query: str, mmr=False, k=3)-> list[Document]:
         """
         Perform semantic search using the given query and return retrieved chunks/documents.
 
@@ -37,26 +55,49 @@ class VectorStore:
         Returns:
             list[Document]: A list of retrieved documents.
         """
-
+        query_vector = embed_docs([query])
         if mmr:
-            retrieved_chunks = self.vectorstore.max_marginal_relevance_search(query, k=k, fetch_k=10)
+            raise NotImplementedError('Maximal Marginal Relevance (MMR) algorithm is not implemented yet.')
         else:
-            retrieved_chunks = self.vectorstore.similarity_search(query, k=k)
-        
-        logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone for query: {query}')
+            retrieved_response = self.pc_index.query(
+                vector=query_vector[0],
+                top_k=k,
+                include_values=False
+            )
+            
+        retrieved_chunks = []
+        for match in retrieved_response['matches']:
+            chunk_id = match['id']
+            chunk = self.data_map[chunk_id]
+            langchain_doc = Document(page_content=chunk)
+            retrieved_chunks.append(langchain_doc)
+            
+        logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone Index({self.index_name}) for query: `{query}`')
         return retrieved_chunks
             
-    def upsert(self, docs):
+    def upsert(self)-> None:
         """
         Upserts the given documents to the Pinecone vector store.
 
         Args:
-            docs (List[Dict[str, Any]]): A list of documents to be upserted. Each document should be a dictionary.
-
+            None
         Returns:
             None
         """
-        self.vectorstore.add_documents(docs)
-        logging.info(f'Upserted {len(docs)} documents to Pinecone')
+        vectors_to_upsert = []
+        embeddings = embed_docs(self.data_map.values())
+        for i,_ in enumerate(embeddings):
+            # {"id": "A", "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]}
+            vector_dict = {"id": f'doc_chunk_{i}', "values": embeddings[i]}
+            vectors_to_upsert.append(vector_dict)
+        self.pc_index.upsert(vectors_to_upsert)
+        while True:
+            index_stats = self.pc_index.describe_index_stats()
+            if index_stats["total_vector_count"] == len(self.data_map):
+                break
+            else: 
+                logging.info(f'Waiting for Pinecone Index({self.index_name}) to upsert all documents...')
+        
+        logging.info(f'Upserted {len(self.data_map)} documents to Pinecone Index({self.index_name})')
         return
     

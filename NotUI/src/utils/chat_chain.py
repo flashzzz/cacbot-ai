@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
 
-def chat_chain(user_query: str, context: str) -> str:
+def retrieval_chat_chain(user_query: str, context: list[Document]) -> str:
     """
     This function generates a response to a user query based on the provided context using the ChatGPT model.
 
@@ -28,6 +28,6 @@ Question: {input}""")
 
     llm_response = document_chain.invoke({
         "input": user_query,
-        "context": [Document(page_content=context)]
+        "context": context
     })
     return llm_response

@@ -69,25 +69,24 @@ def load_url(urls: list[str])-> list:
     logging.info(f'Loaded {len(documents)} documents from [URL]')
     return documents
 
-def load_and_split_doc(paths: list[tuple], org_id: str)-> list[Document]: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
+def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
 
     """
     Load and split documents from given paths.
 
     Args:
         paths (list[tuple]): List of tuples containing path and document type
-        org_id (str): Organization ID
+        user_id (str): User ID
 
     Returns:
         list: List of Langchain Document objects"""
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=100,
+        chunk_size=512,
+        chunk_overlap=64,
         length_function=len
         )
     docs = []
 
-    #TODO - Fill docs dynamically
     for path, doc_type in paths:
         if doc_type == DocType.TXT.value:
             docs.extend(load_txt(path))
@@ -102,5 +101,6 @@ def load_and_split_doc(paths: list[tuple], org_id: str)-> list[Document]: # [('a
             raise Exception(f'Unknown document type: {doc_type}')
 
     splits = splitter.split_documents(docs)
-    logging.info(f"Splitted documents for org_id: {org_id}")
-    return splits
+    texts = [split.page_content for split in splits]
+    logging.info(f"Splitted documents for user_id: {user_id}")
+    return texts
