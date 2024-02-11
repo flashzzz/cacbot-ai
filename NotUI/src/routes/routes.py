@@ -40,7 +40,7 @@ def playground():
     data = request.get_json()
     print("data" , data)
     handler = DocumentHandler('userx')
-    response = handler.chat_handler(data['input'])
+    response = handler.chat_handler(data)
 
     return response
 

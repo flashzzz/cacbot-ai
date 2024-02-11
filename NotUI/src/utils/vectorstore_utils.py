@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import time
 from pinecone import Pinecone, PodSpec
 from langchain_core.documents.base import Document
 from langchain_openai import OpenAIEmbeddings
@@ -37,6 +38,7 @@ class VectorStore:
                     environment="gcp-starter"
                 )
             )
+            # time.sleep(10)
         
         self.pc_index = pc.Index(self.index_name)
         logging.info(f'Initialized Pinecone Index({self.index_name}) for UserID: {self.index_name}')
@@ -72,7 +74,7 @@ class VectorStore:
             langchain_doc = Document(page_content=chunk)
             retrieved_chunks.append(langchain_doc)
             
-        print(retrieved_response)
+        # print(retrieved_response)
         logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone Index({self.index_name}) for query: `{query}`')
         return retrieved_chunks
             

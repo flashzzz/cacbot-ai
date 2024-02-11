@@ -23,10 +23,14 @@ export const Playground = () => {
   const handleClick = async () => {
     setMessageArray([...messageArray, message]);
     setMessage("");
-    
+
     try {
       setLoading(true);
-      await api.post("/playground", message).then((res) => {
+      await api.post("/playground", message, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
         const response: string = res.data;
         setMessageArray([...messageArray, response]);
       });
