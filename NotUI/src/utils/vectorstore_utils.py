@@ -72,6 +72,7 @@ class VectorStore:
             langchain_doc = Document(page_content=chunk)
             retrieved_chunks.append(langchain_doc)
             
+        print(retrieved_response)
         logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone Index({self.index_name}) for query: `{query}`')
         return retrieved_chunks
             
@@ -84,18 +85,27 @@ class VectorStore:
         Returns:
             None
         """
-        data_map = {}
-        for i, doc in enumerate(docs):
+        curr_data_map = {}
+        json_path = Directory.DATA_MAP_DIR.value
+        if not os.path.exists(json_path):
+            data_map = {}
+        else:
+            with open(json_path, 'r') as fp:
+                data_map = json.load(fp)
+                
+        len_data_map = len(data_map)
+        for i, doc in enumerate(docs, start=len_data_map):
+            curr_data_map[f'doc_chunk_{i}'] = doc
             data_map[f'doc_chunk_{i}'] = doc
 
-        with open(Directory.DATA_MAP_DIR.value, 'w') as fp:
+        with open(json_path, 'w') as fp:
             json.dump(data_map, fp, indent=4)
             
         vectors_to_upsert = []
-        embeddings = embed_docs(data_map.values())
-        for i,_ in enumerate(embeddings):
+        embeddings = embed_docs(curr_data_map.values())
+        for i,_ in enumerate(embeddings, start=len_data_map):
             # {"id": "A", "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]}
-            vector_dict = {"id": f'doc_chunk_{i}', "values": embeddings[i]}
+            vector_dict = {"id": f'doc_chunk_{i}', "values": embeddings[i-len_data_map]}
             vectors_to_upsert.append(vector_dict)
         self.pc_index.upsert(vectors_to_upsert)
         while True:

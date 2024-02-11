@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, Blueprint, jsonify
 import os
-from werkzeug.utils import secure_filename
-from NotUI.src.constants.dir_paths import Directory
 from shutil import rmtree
+from flask import Flask, render_template, request, Blueprint, jsonify
+from werkzeug.utils import secure_filename
+from src.constants.dir_paths import Directory
+from src.handlers.handlers import DocumentHandler
 
 document_bp = Blueprint('main', __name__)
 
@@ -38,5 +39,8 @@ def get_data_file():
 def playground():
     data = request.get_json()
     print("data" , data)
-    return data
+    handler = DocumentHandler('userx')
+    response = handler.chat_handler(data['input'])
+
+    return response
 

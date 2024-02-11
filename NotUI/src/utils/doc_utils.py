@@ -102,5 +102,5 @@ def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.p
 
     splits = splitter.split_documents(docs)
     texts = [split.page_content for split in splits]
-    logging.info(f"Splitted documents for user_id: {user_id}")
+    logging.info(f"Splitted documents into {len(texts)} splits [UserID: {user_id}]")
     return texts
