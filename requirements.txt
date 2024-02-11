@@ -4,4 +4,5 @@ langchain==0.0.353
 charset-normalizer==3.3.2
 cohere==4.39
 flask==3.0.2
-pinecone-client==2.2.4
+Flask-Cors==4.0.0
+pinecone-client==3.0.2
