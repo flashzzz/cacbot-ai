@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import { CustomTextField } from "../../Components/CustomTextField/CustomTextField";
+import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { Link } from "react-router-dom";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";

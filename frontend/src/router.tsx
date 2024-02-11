@@ -63,10 +63,19 @@ const LazyMyAccount = Loadable(
   }))
   )
 )
+
 const LazyCryptKey = Loadable(
   lazy(() => 
   import("./Customers/CryptKey/CryptKey").then(( { CryptKey }) => ({
     default: CryptKey,
+  }))
+  )
+)
+
+const LazyPlayground = Loadable(
+  lazy(() => 
+  import("./Customers/Playground/Playground").then(({ Playground }) => ({
+    default: Playground,
   }))
   )
 )
@@ -90,7 +99,7 @@ export const Router = [
       {
         path: "/main/playground",
         exact: true,
-        element: <LazyUploadDocuments />,
+        element: <LazyPlayground />,
       },
       {
         path: "/main/my-account",
