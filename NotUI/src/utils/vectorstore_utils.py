@@ -7,8 +7,6 @@ from langchain_openai import OpenAIEmbeddings
 from src.utils.logging_utils import custom_logging
 custom_logging()
 
-os.environ.get("OPENAI_API_KEY")
-os.environ.get("PINECONE_API_KEY")
 
 class VectorStore:
     def __init__(self, user_id: str)-> None:
@@ -19,7 +17,7 @@ class VectorStore:
         )
         
         self.index_name = user_id
-        self.embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+        self.embedding_model = OpenAIEmbeddings(model="text-embedding-3-large", api_key=os.environ.get("OPENAI_API_KEY"))
         if self.index_name not in pinecone.list_indexes():
             pinecone.create_index(name=self.index_name, metric="cosine", dimension=3072)
         
