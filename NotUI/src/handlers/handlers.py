@@ -11,12 +11,10 @@ custom_logging()
 #TODO: Could make a class handler to init with user_id and all handlers as methods
 
 class DocumentHandler:
-    def __init__(self, user_id: str, paths: list[tuple[str,str]]) -> None:
+    def __init__(self, user_id: str) -> None:
         self.user_id = user_id
-        docs = load_and_split_doc(paths, user_id)
-        self.vectorstore = VectorStore(user_id, docs)
         
-    def doc_handler(self) -> bool:
+    def doc_handler(self, paths: list[tuple[str,str]]) -> bool:
         """Handles the documents by loading and splitting them, and then upserting them into the VectorStore.
 
         Args:
@@ -30,7 +28,9 @@ class DocumentHandler:
             bool: True if the documents are successfully handled, False otherwise.
         """
         try:
-            self.vectorstore.upsert()
+            docs = load_and_split_doc(paths, self.user_id)
+            vectorstore = VectorStore(self.user_id)
+            vectorstore.upsert(docs)
         
         except Exception as e:
             logging.error(f'Error in document handler: {e}')
@@ -53,7 +53,8 @@ class DocumentHandler:
         try:
             mmr = False
             k = 3
-            retrieved_docs = self.vectorstore.semantic_search(query, mmr=mmr, k=k)
+            vectorstore = VectorStore(self.user_id)
+            retrieved_docs = vectorstore.semantic_search(query, mmr=mmr, k=k)
             llm_response = retrieval_chat_chain(query, retrieved_docs)
             logging.info(f'Generated LLM response for query: `{query}` [UserID: {self.user_id}]')
         except Exception as e:

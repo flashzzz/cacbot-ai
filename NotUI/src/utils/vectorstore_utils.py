@@ -1,9 +1,11 @@
 import os
+import json
 import logging
 from pinecone import Pinecone, PodSpec
 from langchain_core.documents.base import Document
 from langchain_openai import OpenAIEmbeddings
 from src.utils.logging_utils import custom_logging
+from src.constants.dir_paths import Directory
 custom_logging()
 
 def embed_docs(docs: list[str])-> list[float]:
@@ -21,7 +23,7 @@ def embed_docs(docs: list[str])-> list[float]:
     return embeddings
 
 class VectorStore:
-    def __init__(self, user_id: str, docs: list[str])-> None:
+    def __init__(self, user_id: str)-> None:
         # Initialize pinecone and embedding model
         pc = Pinecone(api_key=os.environ.get('PINECONE_API_KEY'))        
         self.index_name = user_id
@@ -35,9 +37,6 @@ class VectorStore:
                     environment="gcp-starter"
                 )
             )
-        self.data_map = {}
-        for i, doc in enumerate(docs):
-            self.data_map[f'doc_chunk_{i}'] = doc
         
         self.pc_index = pc.Index(self.index_name)
         logging.info(f'Initialized Pinecone Index({self.index_name}) for UserID: {self.index_name}')
@@ -64,28 +63,36 @@ class VectorStore:
                 top_k=k,
                 include_values=False
             )
-            
+        with open(Directory.DATA_MAP_DIR.value, 'r') as fp:
+            data_map = json.load(fp)
         retrieved_chunks = []
         for match in retrieved_response['matches']:
             chunk_id = match['id']
-            chunk = self.data_map[chunk_id]
+            chunk = data_map[chunk_id]
             langchain_doc = Document(page_content=chunk)
             retrieved_chunks.append(langchain_doc)
             
         logging.info(f'Retrieved {len(retrieved_chunks)} documents from Pinecone Index({self.index_name}) for query: `{query}`')
         return retrieved_chunks
             
-    def upsert(self)-> None:
+    def upsert(self, docs: list[str])-> None:
         """
         Upserts the given documents to the Pinecone vector store.
 
         Args:
-            None
+            docs (list[str]): The list of documents to be upserted.
         Returns:
             None
         """
+        data_map = {}
+        for i, doc in enumerate(docs):
+            data_map[f'doc_chunk_{i}'] = doc
+
+        with open(Directory.DATA_MAP_DIR.value, 'w') as fp:
+            json.dump(data_map, fp, indent=4)
+            
         vectors_to_upsert = []
-        embeddings = embed_docs(self.data_map.values())
+        embeddings = embed_docs(data_map.values())
         for i,_ in enumerate(embeddings):
             # {"id": "A", "values": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]}
             vector_dict = {"id": f'doc_chunk_{i}', "values": embeddings[i]}
@@ -93,11 +100,11 @@ class VectorStore:
         self.pc_index.upsert(vectors_to_upsert)
         while True:
             index_stats = self.pc_index.describe_index_stats()
-            if index_stats["total_vector_count"] == len(self.data_map):
+            if index_stats["total_vector_count"] == len(data_map):
                 break
             else: 
                 logging.info(f'Waiting for Pinecone Index({self.index_name}) to upsert all documents...')
         
-        logging.info(f'Upserted {len(self.data_map)} documents to Pinecone Index({self.index_name})')
+        logging.info(f'Upserted {len(data_map)} documents to Pinecone Index({self.index_name})')
         return
     

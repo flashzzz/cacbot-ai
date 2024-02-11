@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, Blueprint, jsonify
 import os
 from werkzeug.utils import secure_filename
-from src.constants.uploads_dir import UploadsDir
+from NotUI.src.constants.dir_paths import Directory
 from shutil import rmtree
 
 document_bp = Blueprint('main', __name__)
@@ -17,7 +17,7 @@ def get_data():
 
 @document_bp.post('/main/uploads/file')
 def get_data_file(): 
-    target = UploadsDir.UPLOADS_DIR.value
+    target = Directory.UPLOADS_DIR.value
     if not os.path.exists(target):
         os.mkdir(target)
 
