@@ -21,25 +21,18 @@
 
 .heading_text {
   -webkit-text-fill-color: transparent;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#ff0052),
-    to(#8e2b88)
+  background: linear-gradient(
+    to right,
+    #4285f4 0,
+    #9b72cb 9%,
+    #d96570 20%,
+    #d96570 24%,
+    #9b72cb 35%,
+    #4285f4 44%,
+    #9b72cb 50%,
+    #d96570 56%,
+    #4285f4 75%,
+    #9b72cb 100%
   );
-  /* background: -webkit-gradient(
-    74deg,
-    "#4285f4" 0,
-    "#9b72cb" 9%,
-    "#d96570" 20%,
-    "#d96570" 24%,
-    "#9b72cb" 35%,
-    "#4285f4" 44%,
-    "9b72cb" 50%,
-    "#d96570" 56%,
-    "#131314" 75%,
-    "#131314" 100%
-  ); */
   -webkit-background-clip: text;
 }

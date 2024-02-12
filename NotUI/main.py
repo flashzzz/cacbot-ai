@@ -10,5 +10,5 @@ if __name__ == '__main__':
 
 # obj = DocumentHandler('userx').doc_handler([('./main2.txt', 'txt')])
 # obj2 = DocumentHandler('userx')
-# res = obj2.chat_handler('who wrote naruto')
+# res = obj2.chat_handler('who is jon snow')
 # print(res)

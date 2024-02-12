@@ -16,7 +16,7 @@ export const MenuItems: IMenuItems[] = [
     listItemText: "Playground",
   },
   {
-    link: "/main/tutorial",
+    link: "/",
     listItemIcon: "play",
     listItemText: "Tutorial",
   },
