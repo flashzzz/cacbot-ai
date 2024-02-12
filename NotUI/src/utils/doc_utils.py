@@ -81,8 +81,8 @@ def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.p
     Returns:
         list: List of Langchain Document objects"""
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=512,
-        chunk_overlap=64,
+        chunk_size=1024,
+        chunk_overlap=256,
         length_function=len
         )
     docs = []
