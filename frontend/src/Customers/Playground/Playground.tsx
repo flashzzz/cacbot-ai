@@ -1,41 +1,74 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Box, Button, InputAdornment, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
-import arnoux from "../../assets/Screenshot 2024-02-11 170048.png";
-import FeatherIcon from "feather-icons-react";
 import { CustomChatTextField } from "../../Components/TextField/CustomChatTextField";
 import { grey } from "@mui/material/colors";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepartmentOutlined";
 import { api } from "../../api/api";
+import Typewriter from "typewriter-effect";
+import NearMeIcon from "@mui/icons-material/NearMe";
+import SnackBar from "../../Components/SnackBar/SnackBar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Playground = () => {
   const [message, setMessage] = React.useState("");
   const [messageArray, setMessageArray] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [snackBar, setSnackBar] = React.useState<boolean>(true);
 
   const handlechange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
+  // const handleClearChat = () => {
+  //   setMessageArray([]);
+  // };
+
   const handleClick = async () => {
-    setMessageArray([...messageArray, message]);
+    if (message.length === 0) {
+      return;
+    }
+    setMessageArray((prev) => {
+      return [...prev, message];
+    });
     setMessage("");
 
     try {
       setLoading(true);
-      await api.post("/playground", message, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        const response: string = res.data;
-        setMessageArray([...messageArray, response]);
+      await api
+        .post("/playground", message, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          const response: string = res.data;
+          setMessageArray((prev) => {
+            return [...prev, response];
+          });
+        });
+    } catch (error: any) {
+      const errorMessage = error;
+      return toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
       });
-    } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -55,7 +88,7 @@ export const Playground = () => {
           {messageArray.length > 0 ? (
             <Box
               sx={{
-                height: "75vh",
+                height: "65vh",
                 overflow: "scroll",
                 overflowX: "hidden",
                 scrollBehavior: "smooth",
@@ -74,9 +107,12 @@ export const Playground = () => {
                   >
                     <Box
                       display={"flex"}
-                      alignItems={"center"}
+                      alignItems={"flex-start"}
                       justifyContent={"flex-start"}
-                      ml={3}
+                      sx={{
+                        color: "white",
+                        padding: "25px 15px",
+                      }}
                     >
                       {index % 2 === 0 ? (
                         <PermIdentityOutlinedIcon color="primary" />
@@ -87,12 +123,25 @@ export const Playground = () => {
                       <Typography
                         variant="body1"
                         fontWeight={"bold"}
+                        ml={2}
                         sx={{
                           color: "white",
-                          padding: "25px 15px",
                         }}
                       >
-                        {item}
+                        {index % 2 === 0 ? (
+                          item
+                        ) : (
+                          <Typewriter
+                            options={{
+                              delay: 10,
+                              loop: false,
+                              cursor: "",
+                            }}
+                            onInit={(typewriter) => {
+                              typewriter.typeString(item).start();
+                            }}
+                          />
+                        )}
                       </Typography>
                     </Box>
                   </Box>
@@ -133,22 +182,38 @@ export const Playground = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Button
-                    disabled={message.length === 0}
-                    startIcon={<FeatherIcon icon="send" />}
-                    variant="contained"
-                    onClick={handleClick}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
+                  {loading ? (
+                    <Box sx={{ display: "flex" }}>
+                      <CircularProgress
+                        thickness={6}
+                        sx={{
+                          color: "#9722E8",
+                        }}
+                      />
+                    </Box>
+                  ) : (
+                    <NearMeIcon
+                      onClick={handleClick}
+                      sx={{
+                        cursor: "pointer",
+                        p: "6px",
+                        borderRadius: 2,
+                        color: message.length !== 0 ? "#9722E8" : "grey",
+                        ":hover": {
+                          backgroundColor:
+                            message.length !== 0 ? "#3a3939" : "",
+                        },
+                        transition: "all 0.2s linear",
+                        fontSize: "3rem",
+                      }}
+                    />
+                  )}
                 </InputAdornment>
               ),
             }}
           />
         </Box>
+        <ToastContainer />
       </StandardCard>
     </PageContainer>
   );

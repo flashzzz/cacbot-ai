@@ -29,6 +29,16 @@ Question: {input}""")
 
     llm_response = document_chain.invoke({
         "input": user_query,
-        "context": context
-    })
+        "context": context,
+    }, )
+    # llm_res = document_chain.stream({
+    #     "input": user_query,
+    #     "context": context,
+    # })
     return llm_response
+
+
+
+#     llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0, max_tokens=512)
+# for chunk in llm.stream("Write me a song about sparkling water."):
+#     print(chunk, end="", flush=True)

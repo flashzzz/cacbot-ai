@@ -10,8 +10,8 @@ export const CustomChatTextField = styled((props: TextFieldProps) => (
     fontWeight: "550",
   },
   color: theme.palette.grey[800],
-  backgroundColor: theme.palette.grey[700],
-  borderRadius: "25px",
+  backgroundColor: "#2f2d2d",
+  borderRadius: "5px",
   letterSpacing: "0.01071em",
   "& input[type=number]::-webkit-inner-spin-button": {
     "-webkit-appearance": "none",

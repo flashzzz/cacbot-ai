@@ -1,6 +1,6 @@
 import os
 from shutil import rmtree
-from flask import Flask, render_template, request, Blueprint, jsonify
+from flask import Flask, abort, request, Blueprint, jsonify
 from werkzeug.utils import secure_filename
 from src.constants.dir_paths import Directory
 from src.handlers.handlers import DocumentHandler
@@ -38,9 +38,11 @@ def get_data_file():
 @document_bp.post('/playground')
 def playground():
     data = request.get_json()
-    print("data" , data)
     handler = DocumentHandler('userx')
     response = handler.chat_handler(data)
-
+    # return Exception("error")
+    # response = jsonify({'error': str("Missing required key in the request JSON")})
+    # response.status_code = 400
     return response
+    # abort(400, description='Missing required key in the request JSON')
 
