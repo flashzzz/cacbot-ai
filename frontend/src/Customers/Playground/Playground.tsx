@@ -17,9 +17,7 @@ import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepart
 import { api } from "../../api/api";
 import Typewriter from "typewriter-effect";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import SnackBar from "../../Components/SnackBar/SnackBar";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContent } from "../../helpers/Toastify/Toastify";
 
 export const Playground = () => {
   const [message, setMessage] = React.useState("");
@@ -60,15 +58,7 @@ export const Playground = () => {
         });
     } catch (error: any) {
       const errorMessage = error;
-      return toast.error("Something went wrong", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
+      ToastContent(errorMessage.message, "error");
     } finally {
       setLoading(false);
     }
@@ -213,7 +203,6 @@ export const Playground = () => {
             }}
           />
         </Box>
-        <ToastContainer />
       </StandardCard>
     </PageContainer>
   );

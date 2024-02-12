@@ -6,6 +6,8 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -14,5 +16,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <App />
       </Suspense>
     </BrowserRouter>
+    <ToastContainer />
   </React.StrictMode>
 );
