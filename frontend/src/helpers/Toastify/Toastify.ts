@@ -3,7 +3,6 @@
 import { TypeOptions, toast } from "react-toastify";
 
 export const ToastContent = (message: string, type: TypeOptions) => {
-  console.log(message);
   return toast(message, {
     position: "top-right",
     autoClose: 2000,

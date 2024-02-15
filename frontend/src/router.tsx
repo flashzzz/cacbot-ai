@@ -22,6 +22,18 @@ const LazyAuthLayout = Loadable(
   )
 );
 
+const LazyPlaygroundLayout = Loadable(
+  lazy(() =>
+    import("./Components/Layout/PlaygroundLayout").then(
+      ({ PlaygroundLayout }) => {
+        return {
+          default: PlaygroundLayout,
+        };
+      }
+    )
+  )
+);
+
 const LazyHero = Loadable(
   lazy(() =>
     import("./Customers/Hero/Hero").then(({ Hero }) => ({
@@ -50,35 +62,37 @@ const LazyLoginLayout = Loadable(
 
 const LazyForgotPassword = Loadable(
   lazy(() =>
-    import("./Customers/authentication/ForgetPassword").then(({ ForgotPassword }) => ({
-      default: ForgotPassword,
-    }))
+    import("./Customers/authentication/ForgetPassword").then(
+      ({ ForgotPassword }) => ({
+        default: ForgotPassword,
+      })
+    )
   )
 );
 
 const LazyMyAccount = Loadable(
-  lazy(() => 
-  import("./Customers/MyAccount/MyAccount").then(( { MyAccount }) => ({
-    default: MyAccount,
-  }))
+  lazy(() =>
+    import("./Customers/MyAccount/MyAccount").then(({ MyAccount }) => ({
+      default: MyAccount,
+    }))
   )
-)
+);
 
 const LazyCryptKey = Loadable(
-  lazy(() => 
-  import("./Customers/CryptKey/CryptKey").then(( { CryptKey }) => ({
-    default: CryptKey,
-  }))
+  lazy(() =>
+    import("./Customers/CryptKey/CryptKey").then(({ CryptKey }) => ({
+      default: CryptKey,
+    }))
   )
-)
+);
 
 const LazyPlayground = Loadable(
-  lazy(() => 
-  import("./Customers/Playground/Playground").then(({ Playground }) => ({
-    default: Playground,
-  }))
+  lazy(() =>
+    import("./Customers/Playground/Playground").then(({ Playground }) => ({
+      default: Playground,
+    }))
   )
-)
+);
 
 export const Router = [
   {
@@ -110,6 +124,18 @@ export const Router = [
         path: "/main/my-keys",
         exact: true,
         element: <LazyCryptKey />,
+      },
+    ],
+  },
+  {
+    path: "/playground",
+    exact: true,
+    element: <LazyPlaygroundLayout />,
+    children: [
+      {
+        path: "/playground",
+        exact: true,
+        element: <LazyPlayground />,
       },
     ],
   },
