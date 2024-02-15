@@ -13,6 +13,7 @@ import axios from "axios";
 import { AiFillFilePdf } from "react-icons/ai";
 import BackupIcon from "@mui/icons-material/Backup";
 import { api } from "../../api/api";
+import { ToastContent } from "../../helpers/Toastify/Toastify";
 // import { env } from 'node:process';
 
 export const UploadDocuments: React.FC = () => {
@@ -89,7 +90,16 @@ export const UploadDocuments: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const finalData = [...pdfLinkArray, ...normalLinkArray];
+    const finalData = [
+      {
+        name: "normal link",
+        normal_links: normalLinkArray,
+      },
+      {
+        name: "pdf link",
+        normal_links: pdfLinkArray,
+      },
+    ];
     const formData = new FormData();
     documentArray.forEach((file, index) => {
       formData.append(`file-${index}`, file);
@@ -99,15 +109,18 @@ export const UploadDocuments: React.FC = () => {
     setNormalLinkArray([]);
     setDocumentArray([]);
 
-    await api.post(`/main/uploads`, {
-      ...finalData,
-    }).then((res) => {
-      console.log(res);
-      alert("Links uploaded successfully");
-    }).catch((err) => {
-      console.log(err);
-      alert("Error uploading links");
-    })
+    await api
+      .post(`/main/uploads`, {
+        ...finalData,
+      })
+      .then((res) => {
+        console.log(res);
+        ToastContent("Links uploaded successfully", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+        ToastContent("Error on Uploading Links", "error");
+      });
 
     await api
       .post(`/main/uploads/file`, formData, {
@@ -117,11 +130,11 @@ export const UploadDocuments: React.FC = () => {
       })
       .then((res) => {
         console.log(res);
-        alert("PDF links uploaded successfully");
+        ToastContent("Files uploaded successfully", "success");
       })
       .catch((err) => {
         console.log(err);
-        alert("Error uploading PDF files");
+        ToastContent("Error on Uploading Files", "error");
       });
   };
 

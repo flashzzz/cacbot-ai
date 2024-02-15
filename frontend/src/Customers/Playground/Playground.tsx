@@ -23,7 +23,6 @@ export const Playground = () => {
   const [message, setMessage] = React.useState("");
   const [messageArray, setMessageArray] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [snackBar, setSnackBar] = React.useState<boolean>(true);
 
   const handlechange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -66,7 +65,10 @@ export const Playground = () => {
 
   return (
     <PageContainer title="Playground" description="this is playground">
-      <StandardCard heading="Playground" sx={{ minHeight: "95vh" }}>
+      <StandardCard
+        heading="Playground"
+        sx={{ minHeight: "95vh", position: "relative" }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -160,12 +162,32 @@ export const Playground = () => {
         <Box
           sx={{
             position: "absolute",
-            bottom: "6%",
-            left: "30%",
+            bottom: "5%",
+            left: "20%",
             width: "60%",
-            margin: "auto",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexDirection: "column",
           }}
         >
+          {/* <Box
+            sx={{
+              my: 1,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              flexDirection: "row",
+            }}
+          >
+            <Button color="primary" variant="contained">
+              Humour way
+            </Button>
+            <Button color="primary" variant="contained">
+              Poetic way
+            </Button>
+          </Box> */}
           <CustomChatTextField
             value={message}
             onChange={handlechange}
