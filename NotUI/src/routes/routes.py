@@ -18,22 +18,25 @@ def get_data():
 
 @document_bp.post('/main/uploads/file')
 def get_data_file(): 
+    success_flag = False
     target = Directory.UPLOADS_DIR.value
     if not os.path.exists(target):
         os.mkdir(target)
 
     # for file in request.files:
     #     print(file, request.files[file])
-    uploaded_file = request.files['file-0'] # all the pdf which is uploaded
+    uploaded_file = request.files['file'] # all the pdf which is uploaded
     filename = secure_filename(uploaded_file.filename)
-    destination="/".join([target, filename])
+    destination=os.path.join(target, filename)
     uploaded_file.save(destination)
-    # TODO - pus the file in the vector store 
-
-    print("uploaded_file", uploaded_file)
+    success_flag = DocumentHandler('userx').doc_handler([(f'{destination}', 'txt')])
     rmtree(target)
-    return {'message': 'File received successfully'}
-
+    print("uploaded_file", uploaded_file)
+    # TODO - proper logging and exception handling
+    if success_flag:
+        return {'message': 'File received and upserted successfully'}
+    
+    return {'message': 'File received but failed to upsert'}
 
 @document_bp.post('/playground')
 def playground():
