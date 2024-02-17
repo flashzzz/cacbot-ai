@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
-import Loadable from "./Components/Layout/Loadable/Loadable";
-import { AuthLayout } from "./Components/Layout/AuthLayout";
+import Loadable from "./Layout/Loadable/Loadable";
+import { AuthLayout } from "./Layout/AuthLayout";
+import { AuthorisedRoute } from "./Customers/AuthorisedRoute/AuthorisedRoute";
+import { Navigate } from "react-router-dom";
 
 const LazyMainLayout = Loadable(
   lazy(() =>
-    import("./Components/Layout/MainLayout").then(({ MainLayout }) => ({
+    import("./Layout/MainLayout").then(({ MainLayout }) => ({
       default: MainLayout,
     }))
   )
@@ -14,7 +16,7 @@ const LazyMainLayout = Loadable(
 
 const LazyAuthLayout = Loadable(
   lazy(() =>
-    import("./Components/Layout/AuthLayout").then(({ AuthLayout }) => {
+    import("./Layout/AuthLayout").then(({ AuthLayout }) => {
       return {
         default: AuthLayout,
       };
@@ -24,7 +26,7 @@ const LazyAuthLayout = Loadable(
 
 const LazyPlaygroundLayout = Loadable(
   lazy(() =>
-    import("./Components/Layout/PlaygroundLayout").then(
+    import("./Layout/PlaygroundLayout").then(
       ({ PlaygroundLayout }) => {
         return {
           default: PlaygroundLayout,
@@ -103,27 +105,47 @@ export const Router = [
   {
     path: "/main",
     exact: true,
-    element: <LazyMainLayout />,
+    element: (
+      <AuthorisedRoute>
+        <LazyMainLayout />
+      </AuthorisedRoute>
+    ),
     children: [
       {
         path: "/main/upload",
         exact: true,
-        element: <LazyUploadDocuments />,
+        element: (
+          <AuthorisedRoute>
+            <LazyUploadDocuments />
+          </AuthorisedRoute>
+        ),
       },
       {
         path: "/main/playground",
         exact: true,
-        element: <LazyPlayground />,
+        element: (
+          <AuthorisedRoute>
+            <LazyPlayground />
+          </AuthorisedRoute>
+        ),
       },
       {
         path: "/main/my-account",
         exact: true,
-        element: <LazyMyAccount />,
+        element: (
+          <AuthorisedRoute>
+            <LazyMyAccount />
+          </AuthorisedRoute>
+        ),
       },
       {
         path: "/main/my-keys",
         exact: true,
-        element: <LazyCryptKey />,
+        element: (
+          <AuthorisedRoute>
+            <LazyCryptKey />
+          </AuthorisedRoute>
+        ),
       },
     ],
   },
@@ -155,5 +177,9 @@ export const Router = [
         element: <LazyForgotPassword />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/page-not-found" />,
   },
 ];

@@ -17,7 +17,7 @@ import LocalFireDepartmentOutlinedIcon from "@mui/icons-material/LocalFireDepart
 import { api } from "../../api/api";
 import Typewriter from "typewriter-effect";
 import NearMeIcon from "@mui/icons-material/NearMe";
-import { ToastContent } from "../../helpers/Toastify/Toastify";
+import { ToastContent } from "../../helpers/Toastify";
 
 export const Playground = () => {
   const [message, setMessage] = React.useState("");

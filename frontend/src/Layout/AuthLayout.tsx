@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import bgCover from "../../assets/uchiha.jpg";
+import bgCover from "../assets/uchiha.jpg";
 
 export const AuthLayout = () => {
   return (

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
-import { FileUpload } from "../../Components/FileUpload/FileUpload";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
 import { FcLink } from "react-icons/fc";
 import { Link } from "react-router-dom";
@@ -9,12 +8,10 @@ import { FcBrokenLink } from "react-icons/fc";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
-import axios from "axios";
 import { AiFillFilePdf } from "react-icons/ai";
 import BackupIcon from "@mui/icons-material/Backup";
 import { api } from "../../api/api";
-import { ToastContent } from "../../helpers/Toastify/Toastify";
-// import { env } from 'node:process';
+import { ToastContent } from "../../helpers/Toastify";
 
 export const UploadDocuments: React.FC = () => {
   const [pdfLink, setPdfLink] = React.useState<string>("");

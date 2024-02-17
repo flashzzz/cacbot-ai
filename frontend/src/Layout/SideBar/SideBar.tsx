@@ -6,14 +6,31 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { NavLink } from "react-router-dom";
 import { Button, ListItemIcon, Paper, Typography } from "@mui/material";
-
-import { StandardCard } from "../../StandardCard/StandardCard";
+import { StandardCard } from "../../Components/StandardCard/StandardCard";
 import FeatherIcon from "feather-icons-react";
 import { MenuItems } from "./SideBar.types";
+import copy from "clipboard-copy";
+import { ToastContent } from "../../helpers/Toastify";
 
 const drawerWidth = "250px";
 
 export const SideBar = () => {
+  const handleCopy = () => {
+    copy(`<iframe
+    src="http://localhost:5173/playground"
+    style={{
+      width: "100%",
+      height: "100vh",
+      border: 0,
+      borderRadius: 4,
+      overflow: "hidden",
+    }}
+    title="9j1j5r7k0j"
+    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
+  ></iframe>`);
+    ToastContent("Copied to clipboard", "success");
+  };
+
   return (
     <Drawer
       sx={{
@@ -77,6 +94,7 @@ export const SideBar = () => {
           <Button
             color="secondary"
             variant="outlined"
+            onClick={handleCopy}
             sx={{
               ml: 2,
               px: 4,

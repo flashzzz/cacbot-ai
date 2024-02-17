@@ -2,11 +2,11 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
-import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
+import KeyboardReturnRoundedIcon from "@mui/icons-material/KeyboardReturnRounded";
 import { useNavigate } from "react-router-dom";
 
 export const ForgotPassword: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <PageContainer
       title="Forgot Password"
@@ -51,13 +51,7 @@ export const ForgotPassword: React.FC = () => {
               <Typography>OTP</Typography>
               <CustomTextField />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              lg={6}
-              display={"flex"}
-              flexDirection={"column"}
-            >
+            <Grid item xs={12} lg={6} display={"flex"} flexDirection={"column"}>
               <Button
                 startIcon={<KeyboardReturnRoundedIcon />}
                 variant="contained"
@@ -67,13 +61,7 @@ export const ForgotPassword: React.FC = () => {
                 Return to Login
               </Button>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              lg={6}
-              display={"flex"}
-              flexDirection={"column"}
-            >
+            <Grid item xs={12} lg={6} display={"flex"} flexDirection={"column"}>
               <Button
                 endIcon={<LoginRoundedIcon />}
                 variant="contained"
@@ -82,7 +70,6 @@ export const ForgotPassword: React.FC = () => {
                 Submit
               </Button>
             </Grid>
-
           </Grid>
         </Box>
       </Paper>
