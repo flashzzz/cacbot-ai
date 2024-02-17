@@ -12,6 +12,9 @@ import { AiFillFilePdf } from "react-icons/ai";
 import BackupIcon from "@mui/icons-material/Backup";
 import { api } from "../../api/api";
 import { ToastContent } from "../../helpers/Toastify";
+import { LoadingDialog } from "../../Components/Dialog/LoadingDialog";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import { DisplayUploadedFiles } from "./DisplayUploadedFiles";
 
 export const UploadDocuments: React.FC = () => {
   const [pdfLink, setPdfLink] = React.useState<string>("");
@@ -19,6 +22,7 @@ export const UploadDocuments: React.FC = () => {
   const [normalLink, setNormalLink] = React.useState<string>("");
   const [normalLinkArray, setNormalLinkArray] = React.useState<string[]>([]);
   const [documentArray, setDocumentArray] = React.useState<File[]>([]);
+  const [uploading, setUploading] = React.useState<boolean>(false);
 
   const handlePdfLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPdfLink(e.target.value);
@@ -63,31 +67,8 @@ export const UploadDocuments: React.FC = () => {
     }
   };
 
-  const files = documentArray.map((file, index) => {
-    const nameWithoutExtension = file.name.split(".")[0];
-    return (
-      <Box
-        key={index}
-        sx={{
-          width: "100%",
-          margin: "auto",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-        }}
-      >
-        <AiFillFilePdf color="red" size="4vh" style={{ marginLeft: "2vh" }} />
-        <Typography variant="body1" color={"grey"}>
-          {nameWithoutExtension}
-        </Typography>
-      </Box>
-    );
-  });
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const finalData = [
+  const handleSubmitLinks = async () => {
+    const allLinksArray = [
       {
         name: "normal link",
         normal_links: normalLinkArray,
@@ -97,42 +78,74 @@ export const UploadDocuments: React.FC = () => {
         normal_links: pdfLinkArray,
       },
     ];
+    if (normalLinkArray.length === 0 && pdfLinkArray.length === 0) return;
+    try {
+      await api
+        .post(`/main/uploads`, {
+          ...allLinksArray,
+        })
+        .then((res) => {
+          ToastContent(res.data.message, "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          ToastContent("Error on Uploading Links", "error");
+        });
+    } catch {
+      ToastContent("Error on Uploading Links", "error");
+    }
+  };
+
+  const handleSubmitFiles = async () => {
     const formData = new FormData();
     documentArray.forEach((file, index) => {
       formData.append(`file-${index}`, file);
     });
 
-    setpdfLinkArray([]);
-    setNormalLinkArray([]);
-    setDocumentArray([]);
+    let formDataLength = 0;
+    for (const pair of formData.entries()) {
+      formDataLength++;
+    }
 
-    await api
-      .post(`/main/uploads`, {
-        ...finalData,
-      })
-      .then((res) => {
-        console.log(res);
-        ToastContent("Links uploaded successfully", "success");
-      })
-      .catch((err) => {
-        console.log(err);
-        ToastContent("Error on Uploading Links", "error");
-      });
+    if (formDataLength === 0) {
+      return;
+    }
+    try {
+      await api
+        .post(`/main/uploads/file`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          ToastContent(res.data.message, "success");
+        })
+        .catch((err) => {
+          // console.log("er", err);
+          ToastContent(err.message, "error");
+        });
+    } catch {
+      ToastContent("Error on Uploading Some files", "error");
+    }
+  };
 
-    await api
-      .post(`/main/uploads/file`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        ToastContent("Files uploaded successfully", "success");
-      })
-      .catch((err) => {
-        console.log(err);
-        ToastContent("Error on Uploading Files", "error");
-      });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setUploading(true);
+      //uploading links
+      await handleSubmitLinks();
+      // uploading files
+      await handleSubmitFiles();
+    } catch {
+      ToastContent("Error on Uploading Some files", "error");
+    } finally {
+      setUploading(false);
+      setpdfLinkArray([]);
+      setNormalLinkArray([]);
+      setDocumentArray([]);
+    }
   };
 
   return (
@@ -207,6 +220,7 @@ export const UploadDocuments: React.FC = () => {
                         mt: "10px",
                         padding: "1pc",
                         borderRadius: "5px",
+                        height: "auto",
                       }}
                     >
                       <Box
@@ -220,7 +234,7 @@ export const UploadDocuments: React.FC = () => {
                           type="file"
                           id="file_input"
                           multiple
-                          accept="application/pdf"
+                          accept="application/pdf , .pdf, .txt"
                           onChange={handlePdfChange}
                         />
                         <label htmlFor="file_input" className="input_file_text">
@@ -233,23 +247,7 @@ export const UploadDocuments: React.FC = () => {
                           Select files
                         </label>
                       </Box>
-
-                      {files.length > 0 && (
-                        <Box
-                          sx={{
-                            mt: 2,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Typography variant="h6" color={"darkgrey"}>
-                            Files
-                          </Typography>
-                          {files}
-                        </Box>
-                      )}
+                      <DisplayUploadedFiles files={documentArray} />
                     </Box>
                   </Box>
                 </Grid>
@@ -433,6 +431,7 @@ export const UploadDocuments: React.FC = () => {
           </Box>
         </form>
       </StandardCard>
+      {uploading && <LoadingDialog open={uploading} />}
     </PageContainer>
   );
 };

@@ -2,7 +2,7 @@
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
 import { ILogin } from "./interface/login";
 import { useFormik } from "formik";
@@ -13,6 +13,7 @@ export const Login: React.FC<ILogin> = (props) => {
   // const { username, password } = props;
 
   const navigate = useNavigate();
+  const location = useLocation();
   // const hanleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   console.log(e.target.value);
   // };
@@ -25,9 +26,12 @@ export const Login: React.FC<ILogin> = (props) => {
     onSubmit: async (values) => {
       try {
         await api.post("/auth/login", values).then((res) => {
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.data.access_token);
           ToastContent(res.data.message, "success");
-          navigate("/main/upload");
+          navigate("/main/upload", {
+            state: { from: location },
+            replace: true,
+          });
         });
       } catch {
         ToastContent("Invalid username or password", "error");

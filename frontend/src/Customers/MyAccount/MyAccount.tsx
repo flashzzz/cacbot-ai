@@ -7,6 +7,7 @@ import {
   Grid,
   MenuItem,
   SelectChangeEvent,
+  Stack,
   Typography,
 } from "@mui/material";
 import profileImage from "../../assets/uchiha.jpg";
@@ -16,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomSelect } from "../../Components/CustomSelect/CustomSelect";
 import { user_status } from "../../constants/constant";
+import { logOut } from "../../api/api";
 
 export const MyAccount = () => {
   const [file, setFile] = React.useState<string | null>(profileImage);
@@ -125,6 +127,7 @@ export const MyAccount = () => {
           </Box>
         </Box>
       </StandardCard>
+
       <StandardCard heading="Current Status">
         <Typography variant="body1" sx={{ mb: 2 }} color={"#ff8a65"}>
           This status will be displayed on your profile after you publish it.
@@ -147,9 +150,26 @@ export const MyAccount = () => {
             </CustomSelect>
           </Grid>
         </Grid>
+
         <Button color="secondary" variant="contained" sx={{ mt: 2 }}>
           Save
         </Button>
+
+        <Stack
+          display={"flex"}
+          direction="column"
+          justifyContent="flex-start"
+          sx={{ mt: 2 }}
+        >
+          <Button
+            color="error"
+            variant="outlined"
+            sx={{ mt: 4 }}
+            onClick={logOut}
+          >
+            Log out
+          </Button>
+        </Stack>
       </StandardCard>
     </PageContainer>
   );

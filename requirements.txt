@@ -6,3 +6,4 @@ cohere==4.39
 flask==3.0.2
 Flask-Cors==4.0.0
 pinecone-client==3.0.2
+PyJWT==2.8.0
