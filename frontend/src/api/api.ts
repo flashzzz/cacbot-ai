@@ -5,7 +5,7 @@ export const api = axios.create({
 });
 
 export const logOut = () => {
-  localStorage.removeItem("token");
+  localStorage.clear();
   window.location.reload();
   window.location.href = "/";
 };

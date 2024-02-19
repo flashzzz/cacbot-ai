@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from src.routes.routes import document_bp
 from src.routes.auth import auth_bp
+from src.routes.myProfile import myProfile
 import jwt
 
 app = Flask(__name__)
@@ -11,3 +12,4 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
     
 app.register_blueprint(document_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(myProfile)

@@ -26,7 +26,9 @@ export const Login: React.FC<ILogin> = (props) => {
     onSubmit: async (values) => {
       try {
         await api.post("/auth/login", values).then((res) => {
+          console.log(res.data);
           localStorage.setItem("token", res.data.access_token);
+          localStorage.setItem("username", res.data.user.username);
           ToastContent(res.data.message, "success");
           navigate("/main/upload", {
             state: { from: location },

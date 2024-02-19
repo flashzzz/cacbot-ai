@@ -70,5 +70,4 @@ def playground():
     handler = DocumentHandler('userx')
     response = handler.chat_handler(data)
     return response
-    # abort(400, description='Missing required key in the request JSON')
 
