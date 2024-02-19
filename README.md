@@ -30,7 +30,7 @@ To install and run CACBOT.AI on your local machine, you need to follow these ste
 3. Navigate to the frontend directory using the command `cd frontend`.
 4. Install the dependencies using the command `npm install`.
 5. Start the vite react app using the command `npm run dev`.
-6. Navigate to the NotUI directory using the command `cd ../NotUI`.
+6. Navigate to the NotUI directory using the command `cd ../backend`.
 7. Start the flask server using the command `python main.py`.
 8. Open your browser and go to the URL `http://localhost:5173` to view the website.
 
