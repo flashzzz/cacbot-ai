@@ -5,6 +5,7 @@ from src.routes.routes import document_bp
 from src.routes.auth import auth_bp
 from src.routes.myProfile import myProfile
 import jwt
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "7fe6e94b-26c7-4320-8e56-fea6254c9fa9"

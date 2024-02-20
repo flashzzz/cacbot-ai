@@ -27,4 +27,4 @@ def get_user_profile(name: str):
         if user["username"] == username:
             return jsonify({'data': user, 'message': 'User profile fetched successfully'}) , 200
     else:
-        return jsonify({"message": "Invalid username"}), 401
+        return jsonify({'message': 'User profile failed successfully'}) , 200

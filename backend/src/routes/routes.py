@@ -49,9 +49,10 @@ def get_data_file():
     if not os.path.exists(target):
         os.mkdir(target)
 
-    # for file in request.files:
-    #     print(file, request.files[file])
+    for file in request.files:
+        print(file, request.files[file])
     uploaded_file = request.files['file-0'] # all the pdf which is uploaded
+    uploaded_file_two = request.files['file-1'] # all the pdf which is uploaded
     filename = secure_filename(uploaded_file.filename)
     destination=os.path.join(target, filename)
     uploaded_file.save(destination)

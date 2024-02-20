@@ -2,8 +2,6 @@
 from flask import Flask, Blueprint, request, jsonify, session
 import jwt
 
-
-
 auth_bp = Blueprint('auth', __name__)
 
 users = [
