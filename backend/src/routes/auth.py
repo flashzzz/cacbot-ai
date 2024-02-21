@@ -1,9 +1,9 @@
 import jwt
-from flask import Flask, Blueprint, request, jsonify, session
-from flask_pymongo import PyMongo
+from flask import Blueprint, request, jsonify
 from src.decorator.decorator import token_required
-from src.api.index import mongo
 from src.blueprints.blueprints import auth_bp
+
+auth_bp_one = Blueprint('auths', __name__)
 
 users = [
     {
@@ -20,10 +20,10 @@ users = [
 @token_required
 def login(): 
     
-    mongo.users.insert_one({'username': "abhisek", 'password': 'user' })
+    # mongo.users.insert_one({'username': "abhisek", 'password': 'user' })
 
     data = request.get_json()
-    # print(data)
+    print(data)
     #TODO - Add proper logging, Database connection and exception handling
     for user in users:
         if user["username"] == data["username"] and user["password"] == data["password"]:

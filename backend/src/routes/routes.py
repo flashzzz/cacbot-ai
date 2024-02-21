@@ -1,26 +1,18 @@
 import os
 from shutil import rmtree
-from flask import Flask, abort, request, Blueprint, jsonify
+from flask import request, jsonify
 from werkzeug.utils import secure_filename
 from src.constants.dir_paths import Directory
 from src.handlers.handlers import DocumentHandler
 from src.decorator.decorator import token_required
-
-document_bp = Blueprint('main', __name__)
+from src.blueprints.blueprints import document_bp
 
 def delete(path: str):
     rmtree(path)
 
+
 @document_bp.post('/main/uploads')
-# @token_required
-def get_data(): 
-    data = request.get_json()
-    print(type(data), data)
-    return jsonify({'message': 'Links uploaded successfully'})
-
-
-@document_bp.post('/main/uploads/file')
-# @token_required
+@token_required
 def get_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
@@ -32,6 +24,8 @@ def get_data_file():
         curr_file = request.files[f'file-{i}']
         curr_filename = secure_filename(curr_file.filename)
         curr_file.save(os.path.join(target, curr_filename))
+    
+    data = request.form.get("links")
         
     # success_flag = DocumentHandler('userx').doc_handler([(f'{destination}', 'txt')])
     # rmtree(target)
@@ -43,7 +37,7 @@ def get_data_file():
 
 
 @document_bp.post('/playground')
-@token_required
+# @token_required
 def playground():
     data = request.get_json()
     handler = DocumentHandler('userx')

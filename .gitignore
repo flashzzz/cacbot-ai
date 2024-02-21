@@ -164,3 +164,4 @@ cython_debug/
 
 # json
 NotUI/src/data_map.json
+NotUI/src/uploads

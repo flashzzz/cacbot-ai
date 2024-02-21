@@ -8,12 +8,10 @@ import { FcBrokenLink } from "react-icons/fc";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { CustomTextField } from "../../Components/TextField/CustomTextField";
 import { StandardCard } from "../../Components/StandardCard/StandardCard";
-import { AiFillFilePdf } from "react-icons/ai";
 import BackupIcon from "@mui/icons-material/Backup";
 import { api } from "../../api/api";
 import { ToastContent } from "../../helpers/Toastify";
 import { LoadingDialog } from "../../Components/Dialog/LoadingDialog";
-import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import { DisplayUploadedFiles } from "./DisplayUploadedFiles";
 
 export const UploadDocuments: React.FC = () => {
@@ -67,61 +65,28 @@ export const UploadDocuments: React.FC = () => {
     }
   };
 
-  const handleSubmitLinks = async () => {
-    const allLinksArray = [
-      {
-        name: "normal link",
-        normal_links: normalLinkArray,
-      },
-      {
-        name: "pdf link",
-        normal_links: pdfLinkArray,
-      },
-    ];
-    if (normalLinkArray.length === 0 && pdfLinkArray.length === 0) return;
-    try {
-      await api
-        .post(`/main/uploads`, {
-          ...allLinksArray,
-        })
-        .then((res) => {
-          ToastContent(res.data.message, "success");
-        })
-        .catch((err) => {
-          console.log(err);
-          ToastContent("Error on Uploading Links", "error");
-        });
-    } catch {
-      ToastContent("Error on Uploading Links", "error");
-    }
-  };
-
   const handleSubmitFiles = async () => {
     const formData = new FormData();
+    const allLinksArray = [
+      {
+        normal_links: [...normalLinkArray],
+      },
+      {
+        pdf_links: [...pdfLinkArray],
+      },
+    ];
+    formData.append("links", JSON.stringify(allLinksArray));
     documentArray.forEach((file, index) => {
       formData.append(`file-${index}`, file);
     });
 
-    let formDataLength = 0;
-    for (const pair of formData.entries()) {
-      formDataLength++;
-    }
-
-    if (formDataLength === 0) {
-      return;
-    }
     try {
       await api
-        .post(`/main/uploads/file`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(`/main/uploads`, formData)
         .then((res) => {
           ToastContent(res.data.message, "success");
         })
         .catch((err) => {
-          // console.log("er", err);
           ToastContent(err.message, "error");
         });
     } catch {
@@ -134,9 +99,7 @@ export const UploadDocuments: React.FC = () => {
 
     try {
       setUploading(true);
-      //uploading links
-      await handleSubmitLinks();
-      // uploading files
+      // uploading files and links
       await handleSubmitFiles();
     } catch {
       ToastContent("Error on Uploading Some files", "error");

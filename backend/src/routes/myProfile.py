@@ -1,8 +1,6 @@
-from flask import Flask, Blueprint, request, jsonify, make_response
-import jwt
+from flask import jsonify
 from src.decorator.decorator import token_required
-
-myProfile = Blueprint('myProfile', __name__)
+from src.blueprints.blueprints import myProfile_bp
 
 users = [
     {
@@ -50,12 +48,12 @@ users = [
 
 
 
-@myProfile.get('/myProfile/<name>')
+@myProfile_bp.get('/myProfile/<name>')
 @token_required
 def get_user_profile(name: str):
     username = name
     for user in users:
         if user["username"] == username:
-            return make_response({"data": user}), 200
+            return jsonify({"data": user, "message": "User fetched successfully"}), 200
     
-    return make_response({"message": "User not found"}), 404
+    return jsonify({"message": "User not found"}), 404
