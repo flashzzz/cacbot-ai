@@ -12,29 +12,29 @@ def delete(path: str):
     rmtree(path)
 
 @document_bp.post('/main/uploads')
-@token_required
+# @token_required
 def get_data(): 
     data = request.get_json()
+    print(type(data), data)
     return jsonify({'message': 'Links uploaded successfully'})
 
 
 @document_bp.post('/main/uploads/file')
-@token_required
+# @token_required
 def get_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
     if not os.path.exists(target):
         os.mkdir(target)
 
-    for file in request.files:
+    for i, file in enumerate(request.files):
         print(file, request.files[file])
-    uploaded_file = request.files['file-0'] # all the pdf which is uploaded
-    uploaded_file_two = request.files['file-1'] # all the pdf which is uploaded
-    filename = secure_filename(uploaded_file.filename)
-    destination=os.path.join(target, filename)
-    uploaded_file.save(destination)
-    success_flag = DocumentHandler('userx').doc_handler([(f'{destination}', 'txt')])
-    rmtree(target)
+        curr_file = request.files[f'file-{i}']
+        curr_filename = secure_filename(curr_file.filename)
+        curr_file.save(os.path.join(target, curr_filename))
+        
+    # success_flag = DocumentHandler('userx').doc_handler([(f'{destination}', 'txt')])
+    # rmtree(target)
     # TODO - proper logging and exception handling
     if success_flag:
         return jsonify({'message': 'File received and upserted successfully'})
