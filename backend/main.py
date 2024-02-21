@@ -7,8 +7,8 @@ from flask_pymongo import PyMongo
 
 
 if __name__ == '__main__':
-    app.config["MONGO_URI"] = "mongodb://localhost:27017/CACBOT"
-    mongo = PyMongo(app).db
+    # app.config["MONGO_URI"] = "mongodb://localhost:27017/CACBOT"
+    # mongo = PyMongo(app).db
     # mongo.users.insert_one({'username': "abhisek", 'password': 'user' })
     app.run(host='0.0.0.0', port=80, debug=True, use_reloader=True)
 
