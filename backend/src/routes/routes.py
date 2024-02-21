@@ -4,45 +4,22 @@ from flask import Flask, abort, request, Blueprint, jsonify
 from werkzeug.utils import secure_filename
 from src.constants.dir_paths import Directory
 from src.handlers.handlers import DocumentHandler
-import jwt
+from src.decorator.decorator import token_required
 
 document_bp = Blueprint('main', __name__)
-
-# def verify_token(token: str):
-#     try:
-#         decoded = jwt.decode(token, "7fe6e94b-26c7-4320-8e56-fea6254c9fa9", algorithms=['HS256'])
-#         # Further checks, such as expiration time
-#         return decoded
-#     except jwt.ExpiredSignatureError:
-#         return None  # Token has expired
-#     except jwt.InvalidTokenError:
-#         return None  # Invalid token
-
-# @document_bp.before_request
-# async def check_token():
-#     token = await request.headers.get('Auth-Token')
-#     print("header",  token)
-
-#     if not token:
-#         return jsonify({'error': 'Token missing'}), 400
-
-#     decoded_token = verify_token(token)
-
-#     if not decoded_token:
-#         return jsonify({'error': 'Invalid token'}), 401
-    
-#     return decoded_token
 
 def delete(path: str):
     rmtree(path)
 
 @document_bp.post('/main/uploads')
+@token_required
 def get_data(): 
     data = request.get_json()
     return jsonify({'message': 'Links uploaded successfully'})
 
 
 @document_bp.post('/main/uploads/file')
+@token_required
 def get_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
@@ -66,6 +43,7 @@ def get_data_file():
 
 
 @document_bp.post('/playground')
+@token_required
 def playground():
     data = request.get_json()
     handler = DocumentHandler('userx')

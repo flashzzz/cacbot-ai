@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
@@ -55,9 +56,11 @@ export const MyAccount = () => {
         await api.get(`/myProfile/${username}`).then((res) => {
           setUserDetails(res.data.data);
         });
+      } catch (error: any) {
+        const errorMessage = error.response.data.error;
+        ToastContent(errorMessage, "error");
+      } finally {
         setLoading(false);
-      } catch (error) {
-        ToastContent("Error fetching user details", "error");
       }
     };
     fetchUserDetails();
@@ -67,7 +70,7 @@ export const MyAccount = () => {
     if (userDetails) {
       setUserStatus(userDetails.status);
     }
-  }, []);
+  }, [userDetails]);
 
   return (
     <PageContainer title="My Account" description="this is my account page">
