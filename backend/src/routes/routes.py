@@ -1,4 +1,5 @@
 import os
+import json
 from shutil import rmtree
 from flask import request, jsonify
 from werkzeug.utils import secure_filename
@@ -6,6 +7,7 @@ from src.constants.dir_paths import Directory
 from src.handlers.handlers import DocumentHandler
 from src.decorator.decorator import token_required
 from src.blueprints.blueprints import document_bp
+from src.constants.doc_types import DocType
 
 def delete(path: str):
     rmtree(path)
@@ -25,10 +27,23 @@ def get_data_file():
         curr_filename = secure_filename(curr_file.filename)
         curr_file.save(os.path.join(target, curr_filename))
     
-    data = request.form.get("links")
+    data_str = request.form.get("links")
+    links_data = json.loads(data_str)
+    all_docs_to_be_split = []
+    for filee in os.listdir(target):
+        filee_path = os.path.join(target, filee)
+        filee_ext = filee.split('.')[-1]
+        all_docs_to_be_split.append((filee_path, filee_ext))
+    
+    for url in links_data[0]['normal_links']:
+        all_docs_to_be_split.append((url, DocType.WEB_URL.value))
+    
+    for web_pdf in links_data[1]['pdf_links']:
+        all_docs_to_be_split.append((web_pdf, DocType.ONLINE_PDF.value))
         
-    # success_flag = DocumentHandler('userx').doc_handler([(f'{destination}', 'txt')])
-    # rmtree(target)
+            
+    success_flag = DocumentHandler('userx').doc_handler(all_docs_to_be_split)
+    rmtree(target)
     # TODO - proper logging and exception handling
     if success_flag:
         return jsonify({'message': 'File received and upserted successfully'})
