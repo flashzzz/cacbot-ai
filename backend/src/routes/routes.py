@@ -14,7 +14,7 @@ def delete(path: str):
 
 
 @document_bp.post('/main/uploads')
-@token_required
+# @token_required
 def get_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
@@ -28,7 +28,12 @@ def get_data_file():
         curr_file.save(os.path.join(target, curr_filename))
     
     data_str = request.form.get("links")
+    data_str = data_str[1:-1]
+    print('-------------------------------')
+    print(data_str, type(data_str))
     links_data = json.loads(data_str)
+    print('-------------------------------')
+
     all_docs_to_be_split = []
     for filee in os.listdir(target):
         filee_path = os.path.join(target, filee)
