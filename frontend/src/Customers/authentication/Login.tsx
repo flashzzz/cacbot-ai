@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { CustomTextField } from "../../Components/TextField/CustomTextField";
@@ -9,14 +10,17 @@ import { useFormik } from "formik";
 import { api } from "../../api/api";
 import { ToastContent } from "../../helpers/Toastify";
 
-export const Login: React.FC<ILogin> = (props) => {
-  // const { username, password } = props;
+export const linkStye = {
+  // textDecoration: "none",
+  color: "rgb(0 43 255)",
+  "& :hover": {
+    textDecoration: "underline",
+  },
+};
 
+export const Login: React.FC<ILogin> = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const hanleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(e.target.value);
-  // };
 
   const { handleChange, handleSubmit, handleBlur, values } = useFormik({
     initialValues: {
@@ -34,8 +38,9 @@ export const Login: React.FC<ILogin> = (props) => {
             replace: true,
           });
         });
-      } catch {
-        ToastContent("Invalid username or password", "error");
+      } catch (error: any) {
+        const errorMessage = error.response.data.message;
+        ToastContent(errorMessage, "error");
       }
     },
   });
@@ -55,13 +60,13 @@ export const Login: React.FC<ILogin> = (props) => {
           margin: "auto",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: "#ffffff29",
+          bgcolor: "#ffffffff",
           borderRadius: "1rem",
           backdropFilter: "blur(50px)",
         }}
       >
         <Box>
-          <Typography variant="h4" color={"white"} fontWeight={"bold"}>
+          <Typography variant="h4" color={"secondary"} fontWeight={"bold"}>
             CACBOT.AI
           </Typography>
         </Box>
@@ -123,18 +128,28 @@ export const Login: React.FC<ILogin> = (props) => {
                   Login
                 </Button>
               </Grid>
+              <Grid item xs={12} lg={4}></Grid>
+              <Grid
+                item
+                xs={12}
+                lg={8}
+                sx={{
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <Typography variant="body1">
+                  Didn't have a account?{" "}
+                  <Link to="/auth/register" style={linkStye}>
+                    {" "}
+                    Sign Up{" "}
+                  </Link>
+                </Typography>
+              </Grid>
             </Grid>
           </Box>
         </form>
       </Paper>
     </PageContainer>
   );
-};
-
-const linkStye = {
-  textDecoration: "none",
-  color: "rgb(202 204 214)",
-  "&:hover": {
-    textDecoration: "underline",
-  },
 };

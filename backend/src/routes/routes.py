@@ -12,7 +12,6 @@ def delete(path: str):
     rmtree(path)
 
 
-# @document_bp.post('/main/uploads')
 @token_required
 def post_data_file(): 
     success_flag = False
@@ -56,7 +55,6 @@ def post_data_file():
     return jsonify({'message': 'File received but failed to upsert. Please try again later.'})
 
 
-# @document_bp.post('/playground')
 @token_required
 def playground():
     data = request.get_json()

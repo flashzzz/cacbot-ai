@@ -19,16 +19,20 @@ def token_required(f):
         token = request.headers.get('Auth-Token')
 
         if not token:
-            return jsonify({'error': 'Token missing'}) , 401
+            return jsonify({'message': 'Token missing'}) , 401
 
         decoded_token = verify_token(token)
 
         if not decoded_token:
-            return jsonify({'error': 'Invalid token'}) , 404
+            return jsonify({'message': 'Invalid token'}) , 404
 
-        if db.users.find_one({"username": decoded_token['username']}):
+        if db.users.find_one({ "$or": [
+                { "username": decoded_token["username"] },
+                { "email": decoded_token["username"] }
+            ]
+            }):
             return f(*args, **kwargs)
         else:
-            return jsonify({'error': 'Unauthorized'}), 401
+            return jsonify({'message': 'Unauthorized'}), 401
 
     return decorated_function

@@ -3,6 +3,6 @@
 export interface IUserProfile {
     username: string;
     email: string;
-    fullname: string;
-    status: string;
+    fullName: string;
+    Status: string;
 }

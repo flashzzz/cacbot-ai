@@ -62,6 +62,14 @@ const LazyLoginLayout = Loadable(
   )
 );
 
+const LazySignUpLayout = Loadable(
+  lazy(() =>
+    import("./Customers/authentication/SignUp").then(({ SignUp }) => ({
+      default: SignUp,
+    }))
+  )
+);
+
 const LazyForgotPassword = Loadable(
   lazy(() =>
     import("./Customers/authentication/ForgetPassword").then(
@@ -170,6 +178,11 @@ export const Router = [
         path: "/auth/login",
         exact: true,
         element: <LazyLoginLayout />,
+      },
+      {
+        path: "/auth/register",
+        exact: true,
+        element: <LazySignUpLayout />,
       },
       {
         path: "/auth/forgot-password",
