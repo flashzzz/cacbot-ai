@@ -25,6 +25,7 @@ def post_data_file():
         curr_file = request.files[f'file-{i}']
         curr_filename = secure_filename(curr_file.filename)
         curr_file.save(os.path.join(target, curr_filename))
+        success_flag = DocumentHandler('userx').doc_handler([(f'{os.path.join(target, curr_filename)}', 'txt')])
     
     data_str = request.form.get("links")
     data_str = data_str[1:-1]
