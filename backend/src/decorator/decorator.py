@@ -1,6 +1,7 @@
+import jwt
 from flask import request, jsonify
 from functools import wraps
-import jwt
+from src.database.database import db
 
 def verify_token(token: str):
     try:
@@ -25,8 +26,7 @@ def token_required(f):
         if not decoded_token:
             return jsonify({'error': 'Invalid token'}) , 404
 
-        if decoded_token['username'] == 'admin':
-            # You can also pass the decoded token to the route function if needed
+        if db.users.find_one({"username": decoded_token['username']}):
             return f(*args, **kwargs)
         else:
             return jsonify({'error': 'Unauthorized'}), 401

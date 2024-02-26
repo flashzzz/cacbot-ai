@@ -284,7 +284,7 @@ export const UploadDocuments: React.FC = () => {
                                 <FcLink color="blue" size="4vh" />
                                 <Link to={`${link}`} className="pdf_link">
                                   <Typography variant="body1">
-                                    {link}
+                                    {link.slice(0, 35) + "..."}
                                   </Typography>
                                 </Link>
                               </Box>
@@ -351,6 +351,7 @@ export const UploadDocuments: React.FC = () => {
                             flexDirection: "column",
                             alignItems: "flex-start",
                             justifyContent: "center",
+                            flxWrap: "wrap",
                           }}
                         >
                           <Typography variant="h6" color={"darkgrey"}>
@@ -367,7 +368,7 @@ export const UploadDocuments: React.FC = () => {
                                 <FcBrokenLink color="blue" size="4vh" />
                                 <Link to={`${link}`} className="pdf_link">
                                   <Typography variant="body1">
-                                    {link}
+                                    {link.slice(0, 35) + "..."}
                                   </Typography>
                                 </Link>
                               </Box>

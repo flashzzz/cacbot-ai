@@ -57,7 +57,8 @@ export const MyAccount = () => {
           setUserDetails(res.data.data);
         });
       } catch (error: any) {
-        const errorMessage = error.response.data.error;
+        console.log(error)
+        const errorMessage = error.response.message.error;
         ToastContent(errorMessage, "error");
       } finally {
         setLoading(false);

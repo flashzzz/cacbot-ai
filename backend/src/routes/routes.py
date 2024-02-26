@@ -6,16 +6,15 @@ from werkzeug.utils import secure_filename
 from src.constants.dir_paths import Directory
 from src.handlers.handlers import DocumentHandler
 from src.decorator.decorator import token_required
-from src.blueprints.blueprints import document_bp
 from src.constants.doc_types import DocType
 
 def delete(path: str):
     rmtree(path)
 
 
-@document_bp.post('/main/uploads')
+# @document_bp.post('/main/uploads')
 @token_required
-def get_data_file(): 
+def post_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
     if not os.path.exists(target):
@@ -51,8 +50,8 @@ def get_data_file():
     return jsonify({'message': 'File received but failed to upsert. Please try again later.'})
 
 
-@document_bp.post('/playground')
-# @token_required
+# @document_bp.post('/playground')
+@token_required
 def playground():
     data = request.get_json()
     handler = DocumentHandler('userx')
