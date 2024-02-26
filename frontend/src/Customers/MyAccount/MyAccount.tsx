@@ -33,6 +33,7 @@ export const MyAccount = () => {
     null
   );
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<boolean>(false);
 
   const { username } = getUser();
 
@@ -57,7 +58,7 @@ export const MyAccount = () => {
           setUserDetails(res.data.data);
         });
       } catch (error: any) {
-        console.log(error)
+        setError(true);
         const errorMessage = error.response.message.error;
         ToastContent(errorMessage, "error");
       } finally {
@@ -65,7 +66,12 @@ export const MyAccount = () => {
       }
     };
     fetchUserDetails();
-  }, []);
+
+    return () => {
+      setLoading(false);
+      setError(false);
+    };
+  }, [username]);
 
   React.useEffect(() => {
     if (userDetails) {
@@ -75,214 +81,209 @@ export const MyAccount = () => {
 
   return (
     <PageContainer title="My Account" description="this is my account page">
-      {!loading &&
-        (userDetails ? (
-          <>
-            <StandardCard heading="My Account">
-              <Box
+      <StandardCard heading="My Account">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 4,
+          }}
+        >
+          <Box
+            sx={{
+              width: "130px",
+              height: "130px",
+            }}
+          >
+            <img
+              className="pfp"
+              src={file ? file : defaultImage}
+              alt="profile"
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <Box
+              display={"flex"}
+              alignItems={"flex-start"}
+              flexDirection={"column"}
+            >
+              <Typography
+                variant="h6"
                 sx={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  gap: 4,
+                  color: "white",
+                  fontSize: "1.5rem",
+                  letterSpacing: "0.05rem",
                 }}
               >
-                <Box
-                  sx={{
-                    width: "130px",
-                    height: "130px",
-                  }}
-                >
-                  <img
-                    className="pfp"
-                    src={file ? file : defaultImage}
-                    alt="profile"
+                {loading ? (
+                  <Skeleton
+                    variant="text"
+                    width={300}
+                    height={50}
+                    animation={"wave"}
+                    sx={{
+                      backgroundColor: "#201f1f",
+                      borderRadius: "5px",
+                    }}
                   />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-                  }}
-                >
-                  <Box
-                    display={"flex"}
-                    alignItems={"flex-start"}
-                    flexDirection={"column"}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        color: "white",
-                        fontSize: "1.5rem",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {userDetails ? (
-                        userDetails.fullname
-                      ) : (
-                        <Skeleton
-                          variant="text"
-                          width={300}
-                          height={50}
-                          animation={"wave"}
-                          sx={{
-                            backgroundColor: "#201f1f",
-                            borderRadius: "5px",
-                          }}
-                        />
-                      )}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "grey",
-                        fontSize: "1rem",
-                        letterSpacing: "0.05rem",
-                      }}
-                    >
-                      {userDetails ? (
-                        userDetails.username
-                      ) : (
-                        <Skeleton
-                          variant="text"
-                          width={150}
-                          height={30}
-                          animation={"wave"}
-                          sx={{
-                            backgroundColor: "#201f1f",
-                            borderRadius: "5px",
-                          }}
-                        />
-                      )}
-                    </Typography>
-                  </Box>
-                  <Box display={"flex"} alignItems={"center"}>
-                    <EmailIcon sx={{ mr: 1 }} color="primary" />{" "}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "1rem",
-                        letterSpacing: "0.05rem",
-                        color: "white",
-                      }}
-                    >
-                      {userDetails ? (
-                        userDetails.email
-                      ) : (
-                        <Skeleton
-                          variant="text"
-                          width={200}
-                          height={40}
-                          animation={"wave"}
-                          sx={{
-                            backgroundColor: "#201f1f",
-                            borderRadius: "5px",
-                          }}
-                        />
-                      )}
-                    </Typography>
-                  </Box>
-                  <Box
-                    display={"flex"}
-                    alignItems={"center"}
-                    gap={1}
-                    justifyContent={"center"}
-                  >
-                    <input
-                      style={{ display: "none" }}
-                      id="file-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={onFileChange}
-                    />
-                    <label htmlFor="file-upload">
-                      <Button
-                        variant="outlined"
-                        component="span"
-                        startIcon={<EditIcon />}
-                      >
-                        Change Avatar
-                      </Button>
-                    </label>
-                    <Button
-                      variant="contained"
-                      onClick={handleDeleteAvatar}
-                      component="span"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                    >
-                      Delete Avatar
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
-            </StandardCard>
-
-            <StandardCard heading="Current Status">
-              <Typography variant="body1" sx={{ mb: 2 }} color={"#ff8a65"}>
-                This status will be displayed on your profile after you publish
-                it.
+                ) : (
+                  userDetails && userDetails.fullname
+                )}
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={3}>
-                  <CustomSelect
-                    value={userStatus}
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onChange={(event: SelectChangeEvent<any>) =>
-                      setUserStatus(event.target.value)
-                    }
-                    sx={{ color: "white", border: "1px solid grey" }}
-                  >
-                    {user_status.map((status) => (
-                      <MenuItem key={status} value={status}>
-                        {status}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                </Grid>
-              </Grid>
-
-              <Button color="secondary" variant="contained" sx={{ mt: 2 }}>
-                Save
-              </Button>
-
-              <Stack
-                display={"flex"}
-                direction="column"
-                justifyContent="flex-start"
-                sx={{ mt: 2 }}
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "grey",
+                  fontSize: "1rem",
+                  letterSpacing: "0.05rem",
+                }}
               >
+                {loading ? (
+                  <Skeleton
+                    variant="text"
+                    width={150}
+                    height={30}
+                    animation={"wave"}
+                    sx={{
+                      backgroundColor: "#201f1f",
+                      borderRadius: "5px",
+                    }}
+                  />
+                ) : (
+                  userDetails && userDetails.username
+                )}
+              </Typography>
+            </Box>
+            <Box display={"flex"} alignItems={"center"}>
+              <EmailIcon sx={{ mr: 1 }} color="primary" />{" "}
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "1rem",
+                  letterSpacing: "0.05rem",
+                  color: "white",
+                }}
+              >
+                {loading ? (
+                  <Skeleton
+                    variant="text"
+                    width={200}
+                    height={40}
+                    animation={"wave"}
+                    sx={{
+                      backgroundColor: "#201f1f",
+                      borderRadius: "5px",
+                    }}
+                  />
+                ) : (
+                  userDetails && userDetails.email
+                )}
+              </Typography>
+            </Box>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={1}
+              justifyContent={"center"}
+            >
+              <input
+                style={{ display: "none" }}
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+              />
+              <label htmlFor="file-upload">
                 <Button
-                  color="error"
                   variant="outlined"
-                  sx={{ mt: 4 }}
-                  onClick={logOut}
+                  component="span"
+                  startIcon={<EditIcon />}
                 >
-                  Log out
+                  Change Avatar
                 </Button>
-              </Stack>
-            </StandardCard>
-          </>
-        ) : (
-          <>
-            <StandardCard heading="My Account" sx={{ minHeight: "95vh" }}>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                gap={2}
+              </label>
+              <Button
+                variant="contained"
+                onClick={handleDeleteAvatar}
+                component="span"
+                color="error"
+                startIcon={<DeleteIcon />}
               >
-                <ErrorIcon color="error" fontSize="large" />
-                <Typography variant="h5" color={"error"}>
-                  Error on loading Profile{" "}
-                </Typography>
-              </Box>
-            </StandardCard>
-          </>
+                Delete Avatar
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </StandardCard>
+
+      <StandardCard heading="Current Status">
+        <Typography variant="body1" sx={{ mb: 2 }} color={"#ff8a65"}>
+          This status will be displayed on your profile after you publish it.
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={3}>
+            <CustomSelect
+              value={userStatus}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(event: SelectChangeEvent<any>) =>
+                setUserStatus(event.target.value)
+              }
+              sx={{ color: "white", border: "1px solid grey" }}
+            >
+              {user_status.map((status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              ))}
+            </CustomSelect>
+          </Grid>
+        </Grid>
+
+        <Button color="secondary" variant="contained" sx={{ mt: 2 }}>
+          Save
+        </Button>
+
+        <Stack
+          display={"flex"}
+          direction="column"
+          justifyContent="flex-start"
+          sx={{ mt: 2 }}
+        >
+          <Button
+            color="error"
+            variant="outlined"
+            sx={{ mt: 4 }}
+            onClick={logOut}
+          >
+            Log out
+          </Button>
+        </Stack>
+      </StandardCard>
+
+      {error ||
+        (!userDetails && (
+          <StandardCard heading="My Account" sx={{ minHeight: "95vh" }}>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              gap={2}
+            >
+              <ErrorIcon color="error" fontSize="large" />
+              <Typography variant="h5" color={"error"}>
+                Error on loading Profile{" "}
+              </Typography>
+            </Box>
+          </StandardCard>
         ))}
     </PageContainer>
   );
