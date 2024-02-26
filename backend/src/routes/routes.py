@@ -13,7 +13,7 @@ def delete(path: str):
 
 
 # @document_bp.post('/main/uploads')
-# @token_required
+@token_required
 def post_data_file(): 
     success_flag = False
     target = Directory.UPLOADS_DIR.value
