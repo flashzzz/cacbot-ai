@@ -1,3 +1,4 @@
+import pdfplumber
 from langchain_community.document_loaders import TextLoader
 from langchain_community.document_loaders import UnstructuredPDFLoader
 from langchain_community.document_loaders import OnlinePDFLoader
@@ -69,6 +70,18 @@ def load_url(urls: list[str])-> list:
     logging.info(f'Loaded {len(documents)} documents from [URL]')
     return documents
 
+def custom_pdf_text_loader(file_path: str)-> list[str]:
+    with pdfplumber.open(file_path) as pdf:
+        text = ''
+        for page_num in range(1, len(pdf.pages)):
+            page = pdf.pages[page_num]
+            page_text = page.extract_text()
+            lines = page_text.split('\n')
+            for line in lines:
+                text += line + '\n'
+    return text
+    
+
 def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.pdf', 'pdf'), ('def.txt', 'txt'), ('www.abc.com/cool.pdf', 'online_pdf'), (['www.abc.com/cool', 'www.abc.com/cool2'], 'web_url'])]
 
     """
@@ -91,7 +104,9 @@ def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.p
         if doc_type == DocType.TXT.value:
             docs.extend(load_txt(path))
         elif doc_type == DocType.PDF.value:
-            docs.extend(load_pdf(path))
+            pdf_text = custom_pdf_text_loader(path)
+            pdf_doc = Document(page_content=pdf_text)
+            docs.append(pdf_doc)
         elif doc_type == DocType.ONLINE_PDF.value:
             docs.extend(load_online_pdf(path))
         elif doc_type == DocType.WEB_URL.value:
