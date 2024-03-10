@@ -18,11 +18,13 @@ import { api } from "../../api/api";
 import Typewriter from "typewriter-effect";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import { ToastContent } from "../../helpers/Toastify";
+import { getUser } from "../../helpers/getUser";
 
 export const Playground = () => {
   const [message, setMessage] = React.useState("");
   const [messageArray, setMessageArray] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { username } = getUser();
 
   const handlechange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -151,7 +153,7 @@ export const Playground = () => {
                 fontWeight={"500"}
                 className="heading_text"
               >
-                Welcome, Abhisek
+                Welcome, {username}
               </Typography>
               <Typography variant="h4" fontWeight={"400"} color={grey[700]}>
                 Ask me anything from the files/links you have provided.
