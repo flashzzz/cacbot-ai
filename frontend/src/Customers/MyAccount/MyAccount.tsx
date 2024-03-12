@@ -13,7 +13,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import profileImage from "../../assets/uchiha.jpg";
+import profileImage from "../../assets/forgotPass.jpg";
 import defaultImage from "../../assets/defaultImage.jpg";
 import EmailIcon from "@mui/icons-material/Email";
 import EditIcon from "@mui/icons-material/Edit";

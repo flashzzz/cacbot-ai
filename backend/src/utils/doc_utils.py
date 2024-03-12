@@ -99,14 +99,15 @@ def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.p
         length_function=len
         )
     docs = []
+    texts = []
 
     for path, doc_type in paths:
         if doc_type == DocType.TXT.value:
             docs.extend(load_txt(path))
         elif doc_type == DocType.PDF.value:
             pdf_text = custom_pdf_text_loader(path)
-            pdf_doc = Document(page_content=pdf_text)
-            docs.append(pdf_doc)
+            pdf_splits = splitter.split_text(pdf_text)
+            texts.extend(pdf_splits)
         elif doc_type == DocType.ONLINE_PDF.value:
             docs.extend(load_online_pdf(path))
         elif doc_type == DocType.WEB_URL.value:
@@ -116,6 +117,9 @@ def load_and_split_doc(paths: list[tuple], user_id: str)-> list[str]: # [('abc.p
             raise Exception(f'Unknown document type: {doc_type}')
 
     splits = splitter.split_documents(docs)
-    texts = [split.page_content for split in splits]
+    if texts:
+        texts += [split.page_content for split in splits]
+    else:
+        texts = [split.page_content for split in splits]
     logging.info(f"Splitted documents into {len(texts)} splits [UserID: {user_id}]")
     return texts

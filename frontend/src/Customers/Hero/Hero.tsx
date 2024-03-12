@@ -1,18 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { Box, Button, Typography } from "@mui/material";
-// import LoginDialog from "../LoginDialog/LoginDialog";
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "../../Components/Layout/Header/Header";
 import { PageContainer } from "../../Components/PageContainer/PageContainer";
 
 export const Hero = () => {
-  //   const [open, setOpen] = React.useState(false);
-
-  //   const handleClick = () => {
-  //     setOpen(!open);
-  //   }
   const navigate = useNavigate();
   return (
     <PageContainer title="CACBOT.AI" description="this is home page">
@@ -74,9 +66,12 @@ export const Hero = () => {
           towards their right answers, and help them make the right decisions.
         </Typography>
 
-        <img className="hero_image" alt="hero image" src="/src/assets/bg.gif" />
+        <img
+          className="hero_image"
+          alt="hero image"
+          src="/src/assets/bg3.gif"
+        />
 
-        {/* <Link> */}
         <Button
           color="secondary"
           variant="outlined"
