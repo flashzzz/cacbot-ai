@@ -28,9 +28,9 @@ export const UploadDocuments: React.FC = () => {
 
   const handleAddPdfLink = () => {
     if (pdfLink === "") {
-      alert("Please enter a link");
+      ToastContent("Please enter a link", "error");
     } else if (pdfLinkArray.includes(pdfLink)) {
-      alert("Link already exists");
+      ToastContent("Link already exists", "warning");
     } else {
       setpdfLinkArray([...pdfLinkArray, pdfLink]);
       setPdfLink("");
@@ -43,9 +43,9 @@ export const UploadDocuments: React.FC = () => {
 
   const handleAddNormalLink = () => {
     if (normalLink === "") {
-      alert("Please enter a link");
+      ToastContent("Please enter a link", "error");
     } else if (normalLinkArray.includes(normalLink)) {
-      alert("Link already exists");
+      ToastContent("Link already exists", "warning");
     } else {
       setNormalLinkArray([...normalLinkArray, normalLink]);
       setNormalLink("");
@@ -56,17 +56,34 @@ export const UploadDocuments: React.FC = () => {
     const selectedFiles = e.target.files;
     if (selectedFiles) {
       const filesArray = Array.from(selectedFiles);
-      if (documentArray.includes(filesArray[0])) {
-        alert("File already exists");
+      const ext = filesArray[0].name.split(".").pop();
+      if (ext !== "pdf" && ext !== "txt") {
+        ToastContent("Please upload a pdf or txt file", "error");
       } else {
-        const newInput = [...documentArray, ...filesArray];
-        setDocumentArray(newInput);
+        const fileNames = documentArray.map((file) => file.name);
+        const newFileName = filesArray[0].name;
+        if (fileNames.includes(newFileName)) {
+          //todo: correct this
+          ToastContent("File already exists", "warning");
+        } else {
+          const newInput = [...documentArray, ...filesArray];
+          setDocumentArray(newInput);
+        }
       }
     }
   };
 
   const handleSubmitFiles = async () => {
     const formData = new FormData();
+    if (
+      pdfLinkArray.length === 0 &&
+      normalLinkArray.length === 0 &&
+      documentArray.length === 0
+    ) {
+      ToastContent("Please upload some files", "error");
+      return;
+    }
+
     const allLinksArray = [
       {
         normal_links: [...normalLinkArray],
@@ -75,12 +92,12 @@ export const UploadDocuments: React.FC = () => {
         pdf_links: [...pdfLinkArray],
       },
     ];
-    formData.append("links", JSON.stringify(allLinksArray));
-    documentArray.forEach((file, index) => {
-      formData.append(`file-${index}`, file);
-    });
 
     try {
+      formData.append("links", JSON.stringify(allLinksArray));
+      documentArray.forEach((file, index) => {
+        formData.append(`file-${index}`, file);
+      });
       await api
         .post(`/main/uploads`, formData)
         .then((res) => {
