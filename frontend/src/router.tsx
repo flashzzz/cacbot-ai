@@ -26,13 +26,11 @@ const LazyAuthLayout = Loadable(
 
 const LazyPlaygroundLayout = Loadable(
   lazy(() =>
-    import("./Layout/PlaygroundLayout").then(
-      ({ PlaygroundLayout }) => {
-        return {
-          default: PlaygroundLayout,
-        };
-      }
-    )
+    import("./Layout/PlaygroundLayout").then(({ PlaygroundLayout }) => {
+      return {
+        default: PlaygroundLayout,
+      };
+    })
   )
 );
 

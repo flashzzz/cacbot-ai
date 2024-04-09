@@ -61,6 +61,7 @@ export const Hero = () => {
             letterSpacing: 0.8,
             width: "80%",
           }}
+          data-testid="cypress-text"
         >
           Once added to your website, CACBot will guide your organisations
           towards their right answers, and help them make the right decisions.
