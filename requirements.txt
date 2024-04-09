@@ -13,3 +13,4 @@ pdfminer==20191125
 python-dotenv==1.0.1
 torch==2.2.0
 pdfplumber==0.10.4
+opencv-python==4.9.0.80

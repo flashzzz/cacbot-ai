@@ -39,11 +39,12 @@ def post_data_file():
         filee_ext = filee.split('.')[-1]
         all_docs_to_be_split.append((filee_path, filee_ext))
     
-    for url in links_data[0]['normal_links']:
-        all_docs_to_be_split.append((url, DocType.WEB_URL.value))
-    
-    for web_pdf in links_data[1]['pdf_links']:
-        all_docs_to_be_split.append((web_pdf, DocType.ONLINE_PDF.value))
+    if links_data['normal_links']:
+        for url in links_data['normal_links']:
+            all_docs_to_be_split.append((url, DocType.WEB_URL.value))
+    if links_data['pdf_links']:
+        for web_pdf in links_data['pdf_links']:
+            all_docs_to_be_split.append((web_pdf, DocType.ONLINE_PDF.value))
         
             
     success_flag = DocumentHandler('userx').doc_handler(all_docs_to_be_split)

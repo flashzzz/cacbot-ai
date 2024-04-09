@@ -34,7 +34,7 @@ export const Hero = () => {
             },
           }}
         >
-          Your Custom AI sales assistant, ready in minutes.
+          Empower Your Learning Journey with AI.
         </Typography>
 
         <Typography
@@ -48,8 +48,8 @@ export const Hero = () => {
             letterSpacing: 0.8,
           }}
         >
-          Upload your documents and website, creating your own custom CACBot GPT
-          sales and support assistant-ready to sell your products.
+          Boost your studies with CACBot: Your custom AI assistant. Upload
+          docs, get instant answers. Simplify learning, ace exams effortlessly
         </Typography>
         <Typography
           variant="h6"

@@ -36,5 +36,9 @@ To install and run CACBOT.AI on your local machine, you need to follow these ste
 
 
 
+## TODOs
+1. Conversational Memory Context
+2. Streaming Response
+
 
 ### Came this down, please take a moment to star this repo. 😊😊

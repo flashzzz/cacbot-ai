@@ -84,17 +84,13 @@ export const UploadDocuments: React.FC = () => {
       return;
     }
 
-    const allLinksArray = [
-      {
-        normal_links: [...normalLinkArray],
-      },
-      {
-        pdf_links: [...pdfLinkArray],
-      },
-    ];
+    const allLinksArray = {
+      normal_links: [...normalLinkArray],
+      pdf_links: [...pdfLinkArray],
+    };
 
     try {
-      formData.append("links", JSON.stringify(allLinksArray));
+      formData.append("links", "{" + JSON.stringify(allLinksArray) + "}");
       documentArray.forEach((file, index) => {
         formData.append(`file-${index}`, file);
       });
