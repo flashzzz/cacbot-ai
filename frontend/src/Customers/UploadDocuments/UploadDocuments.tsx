@@ -403,6 +403,7 @@ export const UploadDocuments: React.FC = () => {
                     variant="contained"
                     size="large"
                     type="submit"
+                    data-button="cypress-button"
                   >
                     Submit
                   </Button>

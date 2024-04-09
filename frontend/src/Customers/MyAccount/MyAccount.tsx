@@ -136,6 +136,7 @@ export const MyAccount = () => {
                       fontSize: "1.5rem",
                       letterSpacing: "0.05rem",
                     }}
+                    data-testid="cypress-fullname"
                   >
                     {loading ? (
                       <Skeleton
@@ -159,6 +160,7 @@ export const MyAccount = () => {
                       fontSize: "1rem",
                       letterSpacing: "0.05rem",
                     }}
+                    data-testid="cypress-username"
                   >
                     {loading ? (
                       <Skeleton
@@ -185,6 +187,7 @@ export const MyAccount = () => {
                       letterSpacing: "0.05rem",
                       color: "white",
                     }}
+                    data-testid="cypress-email"
                   >
                     {loading ? (
                       <Skeleton
@@ -220,6 +223,7 @@ export const MyAccount = () => {
                       variant="outlined"
                       component="span"
                       startIcon={<EditIcon />}
+                      data-testid="cypress-change-avatar"
                     >
                       Change Avatar
                     </Button>
@@ -230,6 +234,7 @@ export const MyAccount = () => {
                     component="span"
                     color="error"
                     startIcon={<DeleteIcon />}
+                    data-testid="cypress-delete-avatar"
                   >
                     Delete Avatar
                   </Button>
@@ -267,6 +272,7 @@ export const MyAccount = () => {
               variant="contained"
               sx={{ mt: 2 }}
               onClick={handleSaveData}
+              data-testid="cypress-save"
             >
               Save
             </Button>
@@ -282,6 +288,7 @@ export const MyAccount = () => {
                 variant="outlined"
                 sx={{ mt: 4 }}
                 onClick={logOut}
+                data-testid="cypress-logout"
               >
                 Log out
               </Button>

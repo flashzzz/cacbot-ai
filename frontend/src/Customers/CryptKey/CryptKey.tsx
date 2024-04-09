@@ -81,7 +81,9 @@ export const CryptKey: React.FC = () => {
       <StandardCard
         heading="Chatbot application API Keys"
         rightHeading={
-          <Button variant="contained" color="secondary" startIcon={<AddIcon />}>
+          <Button variant="contained" color="secondary" startIcon={<AddIcon />}
+          data-testid="cypress-addKey"
+          >
             Add Key
           </Button>
         }

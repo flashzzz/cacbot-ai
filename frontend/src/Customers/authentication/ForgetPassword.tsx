@@ -45,7 +45,9 @@ export const ForgotPassword: React.FC = () => {
             </Grid>
             <Grid item xs={12} lg={12}>
               <Typography>Username</Typography>
-              <CustomTextField />
+              <CustomTextField 
+              data-testid="cypress-forgotUsername"
+              />
             </Grid>
             <Grid item xs={12} lg={12}>
               <Typography>OTP</Typography>

@@ -86,6 +86,7 @@ export const Login: React.FC<ILogin> = () => {
                   type="text"
                   onBlur={handleBlur}
                   onChange={handleChange}
+                  data-testid="cypress-username"
                 />
               </Grid>
               <Grid item xs={12} lg={12}>
@@ -96,6 +97,7 @@ export const Login: React.FC<ILogin> = () => {
                   name="password"
                   onBlur={handleBlur}
                   onChange={handleChange}
+                  data-testid="cypress-password"
                 />
               </Grid>
               <Grid item xs={12} lg={6}></Grid>

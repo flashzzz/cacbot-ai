@@ -152,10 +152,13 @@ export const Playground = () => {
                 variant="h2"
                 fontWeight={"500"}
                 className="heading_text"
+                data-testid="cypress-welcome"
               >
                 Welcome, {username}
               </Typography>
-              <Typography variant="h4" fontWeight={"400"} color={grey[700]}>
+              <Typography variant="h4" fontWeight={"400"} color={grey[700]}
+              data-testid="cypress-text"
+              >
                 Ask me anything from the files/links you have provided.
               </Typography>
             </Box>
