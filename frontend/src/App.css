@@ -36,3 +36,26 @@
   );
   -webkit-background-clip: text;
 }
+.chat_input {
+  background-color: #1a1919;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 20px 15px;
+  width: 100%;
+  font-size: 1rem;
+  outline: none;
+}
+.send_button_icon {
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  z-index: 999;
+}
+
+.send_button_icon_circle {
+  position: absolute;
+  top: 8px;
+  right: 7px;
+  z-index: 999;
+}

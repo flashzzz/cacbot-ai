@@ -1,7 +1,7 @@
 import { TextField, TextFieldProps, styled } from "@mui/material";
 
 export const CustomChatTextField = styled((props: TextFieldProps) => (
-  <TextField fullWidth {...props} placeholder="Enter your Prompt here" />
+  <TextField fullWidth {...props} placeholder="Enter your Prompt..." />
 ))(({ theme }) => ({
   "& .MuiOutlinedInput-input": {
     padding: "18px",

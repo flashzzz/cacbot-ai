@@ -26,23 +26,11 @@ export const Playground = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const { username } = getUser();
 
-  const handlechange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 
-  // const handleClearChat = () => {
-  //   setMessageArray([]);
-  // };
-
-  const handleClick = async () => {
-    if (message.length === 0) {
-      return;
-    }
-    setMessageArray((prev) => {
-      return [...prev, message];
-    });
-    setMessage("");
-
+  const handleApiRequest = async (message: string) => {
     try {
       setLoading(true);
       await api
@@ -65,6 +53,27 @@ export const Playground = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && message.length !== 0) {
+      setMessageArray((prev) => {
+        return [...prev, message];
+      });
+      setMessage("");
+      handleApiRequest(message);
+    }
+  };
+
+  const handleClick = () => {
+    if (message.length === 0) {
+      return;
+    }
+    setMessageArray((prev) => {
+      return [...prev, message];
+    });
+    setMessage("");
+    handleApiRequest(message);
+  };
+
   return (
     <PageContainer title="Playground" description="this is playground">
       <StandardCard
@@ -83,7 +92,6 @@ export const Playground = () => {
             <Box
               sx={{
                 height: "65vh",
-                overflow: "scroll",
                 overflowX: "hidden",
                 scrollBehavior: "smooth",
                 width: "100%",
@@ -94,9 +102,10 @@ export const Playground = () => {
                   <Box
                     key={index}
                     sx={{
-                      width: "100%",
+                      width: "98%",
                       background: index % 2 === 0 ? "#2d2c2c" : "",
                       borderRadius: "10px",
+                      marginBottom: 2,
                     }}
                   >
                     <Box
@@ -105,7 +114,7 @@ export const Playground = () => {
                       justifyContent={"flex-start"}
                       sx={{
                         color: "white",
-                        padding: "25px 15px",
+                        padding: "10px 10px",
                       }}
                     >
                       {index % 2 === 0 ? (
@@ -149,15 +158,18 @@ export const Playground = () => {
               flexDirection={"column"}
             >
               <Typography
-                variant="h2"
+                variant="h3"
                 fontWeight={"500"}
                 className="heading_text"
                 data-testid="cypress-welcome"
               >
                 Welcome, {username}
               </Typography>
-              <Typography variant="h4" fontWeight={"400"} color={grey[700]}
-              data-testid="cypress-text"
+              <Typography
+                variant="h5"
+                fontWeight={"400"}
+                color={grey[700]}
+                data-testid="cypress-text"
               >
                 Ask me anything from the files/links you have provided.
               </Typography>
@@ -167,7 +179,7 @@ export const Playground = () => {
         <Box
           sx={{
             position: "absolute",
-            bottom: "5%",
+            bottom: "3%",
             left: "20%",
             width: "60%",
             display: "flex",
@@ -176,58 +188,74 @@ export const Playground = () => {
             flexDirection: "column",
           }}
         >
-          {/* <Box
-            sx={{
-              my: 1,
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              flexDirection: "row",
-            }}
-          >
-            <Button color="primary" variant="contained">
-              Humour way
-            </Button>
-            <Button color="primary" variant="contained">
-              Poetic way
-            </Button>
-          </Box> */}
-          <CustomChatTextField
+          {loading ? (
+            <Box sx={{ display: "flex" }}>
+              <CircularProgress
+                className="send_button_icon_circle"
+                thickness={5}
+                sx={{
+                  color: "#9722E8",
+                }}
+              />
+            </Box>
+          ) : (
+            <NearMeIcon
+              onClick={handleClick}
+              className="send_button_icon"
+              sx={{
+                cursor: "pointer",
+                p: "6px",
+                borderRadius: 2,
+                color: message.length !== 0 ? "#9722E8" : "grey",
+                ":hover": {
+                  backgroundColor: message.length !== 0 ? "#3a3939" : "",
+                },
+                transition: "all 0.2s linear",
+                fontSize: "3rem",
+              }}
+            />
+          )}
+          <input
             value={message}
             onChange={handlechange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {loading ? (
-                    <Box sx={{ display: "flex" }}>
-                      <CircularProgress
-                        thickness={6}
-                        sx={{
-                          color: "#9722E8",
-                        }}
-                      />
-                    </Box>
-                  ) : (
-                    <NearMeIcon
-                      onClick={handleClick}
-                      sx={{
-                        cursor: "pointer",
-                        p: "6px",
-                        borderRadius: 2,
-                        color: message.length !== 0 ? "#9722E8" : "grey",
-                        ":hover": {
-                          backgroundColor:
-                            message.length !== 0 ? "#3a3939" : "",
-                        },
-                        transition: "all 0.2s linear",
-                        fontSize: "3rem",
-                      }}
-                    />
-                  )}
-                </InputAdornment>
-              ),
+            onKeyDown={handleKeyPress}
+            style={{
+              position: "relative",
             }}
+            className="chat_input"
+            placeholder="Enter your Prompt..."
+            // InputProps={{
+            //   endAdornment: (
+            //     <InputAdornment position="end">
+            //       {loading ? (
+            //         <Box sx={{ display: "flex" }}>
+            //           <CircularProgress
+            //             thickness={6}
+            //             sx={{
+            //               color: "#9722E8",
+            //             }}
+            //           />
+            //         </Box>
+            //       ) : (
+            //         <NearMeIcon
+            //           onClick={handleClick}
+            //           sx={{
+            //             cursor: "pointer",
+            //             p: "6px",
+            //             borderRadius: 2,
+            //             color: message.length !== 0 ? "#9722E8" : "grey",
+            //             ":hover": {
+            //               backgroundColor:
+            //                 message.length !== 0 ? "#3a3939" : "",
+            //             },
+            //             transition: "all 0.2s linear",
+            //             fontSize: "3rem",
+            //           }}
+            //         />
+            //       )}
+            //     </InputAdornment>
+            //   ),
+            // }}
           />
         </Box>
       </StandardCard>

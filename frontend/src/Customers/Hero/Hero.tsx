@@ -91,7 +91,7 @@ export const Hero = () => {
             },
           }}
         >
-          Start your free trial
+          Get Started
         </Button>
       </Box>
     </PageContainer>
