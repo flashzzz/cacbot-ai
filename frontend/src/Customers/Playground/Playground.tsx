@@ -129,6 +129,7 @@ export const Playground = () => {
                         ml={2}
                         sx={{
                           color: "white",
+                          overflowWrap: "anywhere",
                         }}
                       >
                         {index % 2 === 0 ? (
