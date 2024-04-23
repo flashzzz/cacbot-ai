@@ -77,7 +77,7 @@ export const Playground = () => {
   return (
     <PageContainer title="Playground" description="this is playground">
       <StandardCard
-        heading="Playground"
+        // heading="Playground"
         sx={{ minHeight: "95vh", position: "relative" }}
       >
         <Box
