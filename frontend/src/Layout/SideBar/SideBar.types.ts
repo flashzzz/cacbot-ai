@@ -30,9 +30,9 @@ export const MenuItems: IMenuItems[] = [
     listItemIcon: "user",
     listItemText: "My Account",
   },
-  {
-    link: "/auth/login",
-    listItemIcon: "log-in",
-    listItemText: "Login",
-  },
+  // {
+  //   link: "/auth/login",
+  //   listItemIcon: "log-in",
+  //   listItemText: "Login",
+  // },
 ];
